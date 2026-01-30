@@ -140,56 +140,125 @@ export default function Chat() {
     ta.style.height = Math.min(ta.scrollHeight, 120) + "px";
   };
 
+  // const sendMessage = async () => {
+  //   if (!input.trim() || isProcessing) return;
+
+  //   const userMsg = {
+  //     id: Date.now(),
+  //     role: "user",
+  //     content: input.trim(),
+  //   };
+
+  //   setMessages((prev) => [...prev, userMsg]);
+  //   setInput("");
+  //   adjustTextareaHeight();
+
+  //   // show typing indicator
+  //   setIsProcessing(true);
+
+  //   // Simulate async AI call; replace with real API call later.
+  //   try {
+  //     await new Promise((res) => setTimeout(res, 800));
+  //     const assistantMsg = {
+  //       id: Date.now() + 1,
+  //       role: "assistant",
+  //       content:
+  //         "This is a mock AI response explaining the Bible passage you asked about. Replace this with your real AI call.",
+  //     };
+  //     setMessages((prev) => [...prev, assistantMsg]);
+  //   } catch {
+  //     const errMsg = {
+  //       id: Date.now() + 2,
+  //       role: "assistant",
+  //       content: "Sorry, I couldn't reach the AI. Please try again.",
+  //     };
+  //     setMessages((prev) => [...prev, errMsg]);
+  //   } finally {
+  //     setIsProcessing(false);
+  //   }
+  // };
+
+
+  //This replaces the simulated AI call with a real backend RAG API call
   const sendMessage = async () => {
-    if (!input.trim() || isProcessing) return;
+  if (!input.trim() || isProcessing) return;
 
-    const userMsg = {
-      id: Date.now(),
-      role: "user",
-      content: input.trim(),
-    };
-
-    setMessages((prev) => [...prev, userMsg]);
-    setInput("");
-    adjustTextareaHeight();
-
-    // show typing indicator
-    setIsProcessing(true);
-
-    // Simulate async AI call; replace with real API call later.
-    try {
-      await new Promise((res) => setTimeout(res, 800));
-      const assistantMsg = {
-        id: Date.now() + 1,
-        role: "assistant",
-        content:
-          "This is a mock AI response explaining the Bible passage you asked about. Replace this with your real AI call.",
-      };
-      setMessages((prev) => [...prev, assistantMsg]);
-    } catch {
-      const errMsg = {
-        id: Date.now() + 2,
-        role: "assistant",
-        content: "Sorry, I couldn't reach the AI. Please try again.",
-      };
-      setMessages((prev) => [...prev, errMsg]);
-    } finally {
-      setIsProcessing(false);
-    }
+  const userMsg = {
+    id: Date.now(),
+    role: "user",
+    content: input.trim(),
   };
 
+  setMessages((prev) => [...prev, userMsg]);
+  setInput("");
+  adjustTextareaHeight();
+
+  setIsProcessing(true);
+
+  const backendUrl =
+    import.meta.env.VITE_RAG_URL || "https://verilia-1.onrender.com/api/chat";
+  const apiKey = import.meta.env.VITE_RAG_API_KEY;
+  // Prepare conversation history excluding user messages for context
+  try {
+    const resp = await fetch(backendUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {}),
+      },
+      body: JSON.stringify({
+        question: userMsg.content,
+        history: messages, // adapt shape if your backend expects different keys
+      }),
+    });
+    // Handle non-2xx responses
+    if (!resp.ok) {
+      const text = await resp.text();
+      throw new Error(text || `HTTP ${resp.status}`);
+    }
+    // Parse response
+    const data = await resp.json();
+
+    // Map your backend response to assistant text. Common keys tried here:
+    const assistantText =
+      data.answer || data.content || data.text || (Array.isArray(data.content) ? data.content.join("\n") : null) || "No response.";
+
+    const assistantMsg = {
+      id: Date.now() + 1,
+      role: "assistant",
+      content: assistantText,
+    };
+
+    // Append assistant message
+    setMessages((prev) => [...prev, assistantMsg]);
+  } catch (err) {
+    console.error("RAG error:", err);
+    const errMsg = {
+      id: Date.now() + 2,
+      role: "assistant",
+      content: "Sorry, I couldn't reach the AI. Please try again.",
+    };
+    setMessages((prev) => [...prev, errMsg]);
+  } finally {
+    setIsProcessing(false);
+  }
+};
+
+
+  // Helper to quickly set input and send
   const askQuestion = (q) => {
     setInput(q);
     // small delay so textarea updates visually, then send
     setTimeout(() => sendMessage(true), 120);
   };
 
-  
+  // Toast helper
   const showToast = (text) => {
     setToast(text);
     setTimeout(() => setToast(null), 1800);
   };
 
+  // Save AI message helper
   const saveAIMessage = (msg) => {
     if (!msg || !msg.content) return;
     const exists = notes.some((n) => n.content === msg.content);
@@ -205,6 +274,7 @@ export default function Chat() {
     showToast("Saved");
   };
 
+  // Save last AI response helper
   const saveLastAIResponse = () => {
     const lastAI = [...messages].reverse().find((m) => m.role === "assistant");
     if (!lastAI) {
@@ -214,6 +284,7 @@ export default function Chat() {
     saveAIMessage(lastAI);
   };
 
+  // Main render
       return (
     <div className="container chat-page">
       <div className="header">
