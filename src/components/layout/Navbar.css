@@ -1,0 +1,32 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #d9bf5c;
+  padding: 14px 32px;
+  border-radius: 12px;
+  margin: 16px;
+}
+
+.navbar-logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+}
+
+.navbar-links a.active {
+  text-decoration: underline;
+}
