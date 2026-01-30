@@ -1,16 +1,43 @@
-# React + Vite
+# The Mustard Seed — AI Bible Study
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A small React + Vite application for Bible reading and AI-assisted study using a Retrieval-Augmented Generation (RAG) pipeline. The frontend provides a conversational UI to ask scripture and theology questions, save AI-generated insights, and browse scriptures. A companion RAG backend (Chroma + embeddings + LLM) is recommended for production use.
 
-Currently, two official plugins are available:
+## Table of Contents
+- [Features](#features)
+- [Repository Layout](#repository-layout)
+- [Quick Start — Frontend](#quick-start---frontend)
+- [Environment Variables (frontend)](#environment-variables-frontend)
+- [RAG Backend Overview](#rag-backend-overview)
+- [Backend Quick Start (example)](#backend-quick-start-example)
+- [Ingesting Content](#ingesting-content)
+- [Prompting & Retrieval Notes](#prompting--retrieval-notes)
+- [Deployment](#deployment)
+- [Testing & Troubleshooting](#testing--troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+- Modern React + Vite frontend with conversational chat UI.
+- Save assistant insights to persistent notes (localStorage).
+- ReadBible UI for browsing scripture and chapters.
+- Profile and Saved pages.
+- Pluggable RAG backend via `VITE_RAG_URL` (supports Google GenAI / OpenAI / custom LLM).
 
-## React Compiler
+## Repository Layout
+- the_mustard_seed/ — frontend app (run from here)
+  - src/pages/Chat.jsx — chat UI that posts to the RAG backend ([the_mustard_seed/src/pages/Chat.jsx](the_mustard_seed/src/pages/Chat.jsx#L1))
+  - src/hooks/useSavedNotes.js — localStorage-backed saved notes
+  - src/components/… — layout, styles, and page components
+- server/ — optional backend scaffold (not included by default in this repo)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Quick Start — Frontend
+1. Open a terminal and change to the frontend folder:
 
-## Expanding the ESLint configuration
+cd the_mustard_seed
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+npm install
+
+npm run dev
+
+
+```bash
