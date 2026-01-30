@@ -1,0 +1,103 @@
+/* ReadBible page styles — uses theme variables defined in chat.css */
+.readbible-page .readbible-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 880px) {
+  .readbible-page .readbible-grid {
+    grid-template-columns: 320px 1fr;
+  }
+}
+
+/* Sidebar book list */
+.books-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: calc(100vh - 220px);
+  overflow: auto;
+  padding-right: 4px;
+}
+
+/* Book card */
+.book-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.book-card:hover { transform: translateY(-2px); }
+.book-card.selected {
+  background: var(--organic-card-bg, rgba(74,222,128,0.06));
+  border-color: var(--organic-border, rgba(74,222,128,0.18));
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+.book-title { font-weight: 700; }
+.book-meta { font-size: 0.85rem; opacity: 0.8; }
+
+/* Reading column */
+.reading-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Chapter navigator */
+.chapter-nav {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom: 6px;
+}
+.nav-btn {
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .12s ease;
+}
+body.organic .nav-btn { background: rgba(255,255,255,0.03); color: var(--organic-text); }
+body.brutalist .nav-btn { background: #fff; color: var(--brutalist-text); border: 2px solid var(--brutalist-text); }
+
+/* Chapter card & verses */
+.chapter-card {
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.03);
+}
+.verse-list { display:flex; flex-direction:column; gap:10px; margin-top:8px; }
+.verse-card {
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  padding:12px;
+  border-radius:10px;
+  background: rgba(255,255,255,0.01);
+  border: 1px solid rgba(255,255,255,0.02);
+}
+.verse-number {
+  font-weight:700;
+  min-width:28px;
+  color:var(--organic-accent);
+}
+.verse-text { flex:1; line-height:1.5; color:inherit; }
+.explain-btn {
+  margin-left: 8px;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+body.organic .explain-btn { background: rgba(74,222,128,0.12); color: var(--organic-text); }
+body.brutalist .explain-btn { background: var(--brutalist-text); color: var(--brutalist-bg); }
+
+/* Page title spacing */
+.readbible-page .page-title { margin-bottom: 12px; }

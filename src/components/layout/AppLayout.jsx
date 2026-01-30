@@ -17,7 +17,7 @@
 import { useEffect } from "react";
 import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
-import "../components/chat/chat.css";
+import "../chat/chat.css";
 
 export default function AppLayout() {
   useEffect(() => {
