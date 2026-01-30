@@ -110,8 +110,9 @@ export default function Chat() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [toast, setToast] = useState(null);
   const textareaRef = useRef(null);
-  const { addNote } = useSavedNotes();
+  const { addNote, notes } = useSavedNotes();
 
   useEffect(() => {
     document.body.classList.remove("organic", "brutalist");
@@ -183,16 +184,37 @@ export default function Chat() {
     setTimeout(() => sendMessage(true), 120);
   };
 
-  const saveLastAIResponse = () => {
-    const lastAI = [...messages].reverse().find((m) => m.role === "assistant");
-    if (!lastAI) return;
-    addNote({
-      title: "Saved Bible Insight",
-      content: lastAI.content,
-    });
+  
+  const showToast = (text) => {
+    setToast(text);
+    setTimeout(() => setToast(null), 1800);
   };
 
-  return (
+  const saveAIMessage = (msg) => {
+    if (!msg || !msg.content) return;
+    const exists = notes.some((n) => n.content === msg.content);
+    if (exists) {
+      showToast("Already saved");
+      return;
+    }
+    const title = msg.content.split("\n")[0].slice(0, 80) || "Saved Insight";
+    addNote({
+      title,
+      content: msg.content,
+    });
+    showToast("Saved");
+  };
+
+  const saveLastAIResponse = () => {
+    const lastAI = [...messages].reverse().find((m) => m.role === "assistant");
+    if (!lastAI) {
+      showToast("No AI response to save");
+      return;
+    }
+    saveAIMessage(lastAI);
+  };
+
+      return (
     <div className="container chat-page">
       <div className="header">
         <button className="back-button" onClick={goBack}>
@@ -248,6 +270,13 @@ export default function Chat() {
         {messages.map((msg) => (
           <div key={msg.id} className={`message ${msg.role === "user" ? "user" : "assistant"}`}>
             <div className="message-text">{msg.content}</div>
+            
+            {msg.role === "assistant" && (
+              <div style={{ marginTop: 8 }}>
+                <button className="save-btn" onClick={() => saveAIMessage(msg)}>Save</button>
+              </div>
+            )}
+
           </div>
         ))}
 
@@ -261,7 +290,7 @@ export default function Chat() {
       </div>
 
       {messages.some((m) => m.role === "assistant") && (
-        <button className="save-btn" onClick={saveLastAIResponse}>Save Insight</button>
+        <button className="save-btn" onClick={saveLastAIResponse}>Save Last AI Response</button>
       )}
 
       <div className="input-area">
@@ -290,6 +319,10 @@ export default function Chat() {
           </svg>
         </button>
       </div>
+
+      
+      {toast && <div className="toast">{toast}</div>}
+
     </div>
   );
 }
