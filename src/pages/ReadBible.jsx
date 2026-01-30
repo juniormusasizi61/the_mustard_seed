@@ -9,14 +9,19 @@ export default function ReadBible() {
   const [chapterIndex, setChapterIndex] = useState(0);
 
   const chapter = selectedBook.chapters[chapterIndex];
+  const isDesktop = window.innerWidth > 768;
+
 
   return (
     <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "250px 1fr",
-        gap: "20px",
-      }}
+     style={{
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  ...(isDesktop && { gridTemplateColumns: "1fr 2fr" }),
+  
+  gap: "20px",
+}}
+
     >
       {/* Books List */}
       <div>
