@@ -1,4 +1,5 @@
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 
 const STORAGE_KEY = "bible_ai_saved_notes";
 
@@ -8,11 +9,18 @@ export default function useSavedNotes() {
     return stored ? JSON.parse(stored) : [];
   });
 
-  const saveNote = (note) => {
-    const updated = [note, ...notes];
-    setNotes(updated);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+  }, [notes]);
+
+  const addNote = (note) => {
+    setNotes((prev) => [note, ...prev]);
   };
 
-  return { notes, saveNote };
+  const removeNote = (index) => {
+    setNotes((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  return { notes, addNote, removeNote };
 }
+

@@ -1,4 +1,4 @@
-.profile-page {
+/* .profile-page {
   padding: 1.5rem;
   display: flex;
   justify-content: center;
@@ -52,4 +52,34 @@
 .actions .danger {
   background: #f44336;
   color: white;
+} */
+
+
+/* improved profile page design with themes */
+.profile-page { padding: 1.5rem; display: flex; justify-content: center; }
+.profile-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 16px;
 }
+body.organic .profile-card {
+  background: rgba(74,222,128,0.06);
+  border: 1px solid rgba(74,222,128,0.18);
+  color: var(--organic-text);
+}
+body.brutalist .profile-card {
+  background: var(--brutalist-bg);
+  border: 3px solid var(--brutalist-text);
+  color: var(--brutalist-text);
+}
+.avatar { font-size: 64px; margin-bottom: 1rem; }
+.email { color: rgba(255,255,255,0.8); font-size: 0.95rem; }
+body.brutalist .email { color: #444; }
+.stats { display:flex; justify-content:space-around; margin:1.5rem 0; }
+.stats div span { display:block; font-size:0.8rem; color:rgba(255,255,255,0.8); }
+body.brutalist .stats div span { color:#666; }
+.actions { display:flex; gap:1rem; }
+.actions button { flex:1; padding:0.6rem; border-radius:8px; border:none; cursor:pointer; }
+.actions .danger { background:#f44336; color:white; }
