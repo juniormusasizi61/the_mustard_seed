@@ -26,7 +26,7 @@ export default function BookCard({ book, onSelect, selected }) {
       onKeyDown={(e) => e.key === "Enter" && onSelect(book)}
     >
       <div className="book-title">{book.book}</div>
-      <div className="book-meta">{book.chapters.length} chapter{book.chapters.length > 1 ? "s" : ""}</div>
+      <div className="book-meta">{book.chapters} chapter{book.chapters > 1 ? "s" : ""}</div>
     </div>
   );
 }
