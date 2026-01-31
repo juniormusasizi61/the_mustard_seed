@@ -206,6 +206,7 @@ export default function Chat() {
         "Content-Type": "application/json",
         ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {}),
       },
+      mode: 'cors',
       body: JSON.stringify({
         question: userMsg.content,
         history: messages, // adapt shape if your backend expects different keys
@@ -236,7 +237,9 @@ export default function Chat() {
     const errMsg = {
       id: Date.now() + 2,
       role: "assistant",
-      content: "Sorry, I couldn't reach the AI. Please try again.",
+      content: err.message.includes('CORS') || err.message.includes('Failed to fetch') 
+        ? "Unable to connect to AI service. This may be a CORS issue. Please check your backend configuration or use the mock response for testing."
+        : "Sorry, I couldn't reach the AI. Please try again.",
     };
     setMessages((prev) => [...prev, errMsg]);
   } finally {
