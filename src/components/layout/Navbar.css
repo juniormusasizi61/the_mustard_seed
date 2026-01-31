@@ -1,0 +1,68 @@
+/* .navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #d9bf5c;
+  padding: 14px 32px;
+  border-radius: 12px;
+  margin: 16px;
+}
+
+.navbar-logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+}
+
+.navbar-links a.active {
+  text-decoration: underline;
+} */
+
+
+/* Updated Navbar styles for improved design */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  border-radius: 12px;
+  margin: 12px;
+  gap: 12px;
+}
+
+/* organic/brutalist backgrounds */
+body.organic .navbar { background: rgba(74,222,128,0.06); border: 1px solid rgba(74,222,128,0.18); color: var(--organic-text); }
+body.brutalist .navbar { background: var(--brutalist-bg); border: 3px solid var(--brutalist-text); color: var(--brutalist-text); }
+
+.navbar-logo { font-weight: 700; font-size: 1rem; }
+
+.navbar-links {
+  display: flex;
+  gap: 18px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 600;
+}
+
+.navbar-links a.active {
+  text-decoration: underline;
+}

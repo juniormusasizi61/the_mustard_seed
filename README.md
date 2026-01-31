@@ -1,70 +1,43 @@
-# Getting Started with Create React App
+# The Mustard Seed — AI Bible Study
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A small React + Vite application for Bible reading and AI-assisted study using a Retrieval-Augmented Generation (RAG) pipeline. The frontend provides a conversational UI to ask scripture and theology questions, save AI-generated insights, and browse scriptures. A companion RAG backend (Chroma + embeddings + LLM) is recommended for production use.
 
-## Available Scripts
+## Table of Contents
+- [Features](#features)
+- [Repository Layout](#repository-layout)
+- [Quick Start — Frontend](#quick-start---frontend)
+- [Environment Variables (frontend)](#environment-variables-frontend)
+- [RAG Backend Overview](#rag-backend-overview)
+- [Backend Quick Start (example)](#backend-quick-start-example)
+- [Ingesting Content](#ingesting-content)
+- [Prompting & Retrieval Notes](#prompting--retrieval-notes)
+- [Deployment](#deployment)
+- [Testing & Troubleshooting](#testing--troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
 
-In the project directory, you can run:
+## Features
+- Modern React + Vite frontend with conversational chat UI.
+- Save assistant insights to persistent notes (localStorage).
+- ReadBible UI for browsing scripture and chapters.
+- Profile and Saved pages.
+- Pluggable RAG backend via `VITE_RAG_URL` (supports Google GenAI / OpenAI / custom LLM).
 
-### `npm start`
+## Repository Layout
+- the_mustard_seed/ — frontend app (run from here)
+  - src/pages/Chat.jsx — chat UI that posts to the RAG backend ([the_mustard_seed/src/pages/Chat.jsx](the_mustard_seed/src/pages/Chat.jsx#L1))
+  - src/hooks/useSavedNotes.js — localStorage-backed saved notes
+  - src/components/… — layout, styles, and page components
+- server/ — optional backend scaffold (not included by default in this repo)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Quick Start — Frontend
+1. Open a terminal and change to the frontend folder:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+cd the_mustard_seed
 
-### `npm test`
+npm install
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+npm run dev
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash

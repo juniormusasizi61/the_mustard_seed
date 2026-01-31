@@ -1,0 +1,105 @@
+
+/* Saved page styles — theme-aware (uses variables from chat.css) */
+
+.saved-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 16px;
+}
+
+@media (min-width: 760px) {
+  .saved-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1100px) {
+  .saved-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Card */
+.saved-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+  border-radius: 12px;
+  min-height: 140px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.03);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.saved-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+.saved-card-body {
+  margin-bottom: 12px;
+}
+.saved-title {
+  margin: 0 0 8px 0;
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+.saved-content {
+  margin: 0;
+  color: inherit;
+  opacity: 0.95;
+  line-height: 1.5;
+  max-height: 6.2em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Footer / actions */
+.saved-card-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.delete-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: inherit;
+  transition: background 0.12s ease, transform 0.08s ease;
+}
+.delete-btn:hover { transform: translateY(-2px); }
+
+/* Theme variants */
+body.organic .saved-card {
+  background: rgba(74,222,128,0.04);
+  border-color: rgba(74,222,128,0.12);
+  color: var(--organic-text);
+}
+body.organic .delete-btn {
+  background: rgba(255,255,255,0.02);
+  border-color: rgba(255,255,255,0.06);
+}
+
+body.brutalist .saved-card {
+  background: var(--brutalist-bg);
+  border: 2px solid var(--brutalist-text);
+  color: var(--brutalist-text);
+}
+body.brutalist .delete-btn {
+  background: var(--brutalist-text);
+  color: var(--brutalist-bg);
+  border-color: var(--brutalist-text);
+}
+
+/* Empty state reuse */
+.saved-empty {
+  padding: 36px;
+  text-align: center;
+  border-radius: 12px;
+  border: 1px dashed rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.01);
+}
+.saved-empty .empty-icon { font-size: 2.4rem; margin-bottom: 8px; }
+.saved-empty .empty-text { font-size: 1rem; opacity: 0.9; }
