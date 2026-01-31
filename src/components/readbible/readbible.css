@@ -1,4 +1,792 @@
-/* ReadBible page styles — uses theme variables defined in chat.css */
+/* Mobile-First ReadBible Tab-Based Styles */
+
+/* Theme-aware background for readbible page */
+body.organic .readbible-mobile {
+  background: linear-gradient(135deg, #0a1a1a 0%, #051010 100%);
+  color: #ffffff;
+}
+
+body.brutalist .readbible-mobile {
+  background: #ffffff;
+  color: #000000;
+}
+
+.readbible-mobile {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+body.organic .readbible-header {
+  background: rgba(10, 26, 26, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.brutalist .readbible-header {
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 2px solid #000000;
+}
+
+.readbible-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.readbible-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0;
+  flex: 1;
+}
+
+.back-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: inherit;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+body.brutalist .back-button {
+  background: #000000;
+  color: #ffffff;
+  border: 2px solid #000000;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+body.brutalist .back-button:hover {
+  background: #333333;
+}
+
+.back-button:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.theme-icon {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+/* Tab Content */
+.tab-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Books Tab */
+.testament-section {
+  margin-bottom: 24px;
+}
+
+/* Testament Section Headers */
+.testament-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  margin-bottom: 12px;
+}
+
+body.brutalist .testament-header {
+  background: #ffffff;
+  border: 3px solid #000000;
+  box-shadow: 4px 4px 0 #000000;
+}
+
+.testament-header:active {
+  transform: scale(0.98);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+body.brutalist .testament-header:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #000000;
+}
+
+.testament-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #4ade80;
+  margin: 0;
+}
+
+body.brutalist .testament-label {
+  color: #ff6b9d;
+}
+
+.dropdown-arrow {
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+  color: #4ade80;
+  opacity: 0.7;
+}
+
+body.brutalist .dropdown-arrow {
+  color: #ff6b9d;
+}
+
+.dropdown-arrow.expanded {
+  transform: rotate(180deg);
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.book-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body.brutalist .book-item {
+  background: #ffffff;
+  border: 2px solid #000000;
+}
+
+.book-item:active {
+  transform: scale(0.98);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+body.brutalist .book-item:active {
+  background: #f0f0f0;
+}
+
+.book-name {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.book-chapters {
+  font-size: 0.85rem;
+  opacity: 0.6;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+/* Chapters Tab */
+.chapters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  gap: 12px;
+}
+
+.chapter-item {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body.brutalist .chapter-item {
+  background: #ffffff;
+  border: 2px solid #000000;
+}
+
+.chapter-item:active {
+  transform: scale(0.95);
+  background: rgba(74, 222, 128, 0.1);
+  border-color: rgba(74, 222, 128, 0.3);
+}
+
+body.brutalist .chapter-item:active {
+  background: #ffeb3b;
+  border-color: #000000;
+}
+
+/* Verses Tab */
+.verses-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.verse-item {
+  display: flex;
+  gap: 12px;
+  line-height: 1.7;
+}
+
+.verse-number {
+  flex-shrink: 0;
+  font-weight: 700;
+  color: #4ade80;
+  min-width: 32px;
+  font-size: 0.9rem;
+}
+
+body.brutalist .verse-number {
+  color: #ff6b9d;
+}
+
+.verse-text {
+  flex: 1;
+  user-select: text;
+  -webkit-user-select: text;
+  font-size: 1.05rem;
+}
+
+/* Chapter Navigation Buttons */
+.chapter-navigation-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-chapter-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body.brutalist .nav-chapter-btn {
+  background: #ffffff;
+  border: 2px solid #000000;
+  font-weight: 600;
+}
+
+.nav-chapter-btn:active {
+  transform: scale(0.97);
+  background: rgba(74, 222, 128, 0.1);
+  border-color: rgba(74, 222, 128, 0.3);
+}
+
+.nav-chapter-btn .arrow {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.nav-chapter-btn .btn-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.nav-chapter-btn.next-btn .btn-text {
+  align-items: flex-end;
+}
+
+.nav-chapter-btn .book-name-short {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.nav-chapter-btn .chapter-num {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Resume Reading Banner */
+.resume-banner {
+  background: linear-gradient(135deg, rgba(74, 222, 128, 0.15) 0%, rgba(34, 197, 94, 0.1) 100%);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body.brutalist .resume-banner {
+  background: #ffeb3b;
+  border: 3px solid #000000;
+  box-shadow: 4px 4px 0 #000000;
+}
+
+.resume-banner:active {
+  transform: scale(0.98);
+  background: linear-gradient(135deg, rgba(74, 222, 128, 0.2) 0%, rgba(34, 197, 94, 0.15) 100%);
+}
+
+.resume-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.resume-icon {
+  font-size: 1.5rem;
+}
+
+.resume-text strong {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+  color: var(--organic-accent, #4ade80);
+}
+
+.resume-text p {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.resume-arrow {
+  font-size: 1.3rem;
+  opacity: 0.6;
+}
+
+/* Favorites List */
+.favorites-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.favorite-item {
+  display: flex;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 14px;
+  transition: all 0.2s ease;
+}
+
+body.brutalist .favorite-item {
+  background: #ffffff;
+  border: 2px solid #000000;
+}
+
+.favorite-content {
+  flex: 1;
+  cursor: pointer;
+}
+
+.favorite-reference {
+  display: block;
+  color: var(--organic-accent, #4ade80);
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+}
+
+.favorite-text {
+  margin: 0;
+  line-height: 1.5;
+  opacity: 0.9;
+  font-size: 0.95rem;
+}
+
+.remove-favorite-btn {
+  flex-shrink: 0;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.remove-favorite-btn:active {
+  transform: scale(0.9);
+  background: rgba(239, 68, 68, 0.2);
+}
+
+/* Add to Favorites Modal */
+.favorite-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.favorite-modal {
+  background: rgba(15, 15, 15, 0.98);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+body.brutalist .favorite-modal {
+  background: #ffffff;
+  border: 3px solid #000000;
+  box-shadow: 8px 8px 0 #000000;
+}
+
+.favorite-modal h3 {
+  margin: 0 0 16px 0;
+  font-size: 1.3rem;
+  color: var(--organic-accent, #4ade80);
+}
+
+.selected-verse-preview {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 20px;
+}
+
+.selected-verse-preview strong {
+  display: block;
+  color: var(--organic-accent, #4ade80);
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.selected-verse-preview p {
+  margin: 0;
+  font-style: italic;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn {
+  background: rgba(255, 255, 255, 0.05);
+  color: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cancel-btn:active {
+  transform: scale(0.97);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.add-btn {
+  background: var(--organic-accent, #4ade80);
+  color: #0a0a0a;
+}
+
+body.brutalist .add-btn {
+  background: #ff6b9d;
+  color: #000000;
+  border: 2px solid #000000;
+  box-shadow: 2px 2px 0 #000000;
+}
+
+.add-btn:active {
+  transform: scale(0.97);
+  opacity: 0.9;
+}
+
+/* Loading & Error States */
+.loading-state,
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.error-state button {
+  margin-top: 16px;
+  padding: 10px 24px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: inherit;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Intro Popup */
+.intro-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.intro-popup {
+  background: rgba(20, 20, 20, 0.98);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 16px;
+  padding: 32px 24px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.intro-popup h3 {
+  margin: 0 0 16px 0;
+  font-size: 1.5rem;
+  color: var(--organic-accent, #4ade80);
+}
+
+.intro-popup p {
+  margin: 0 0 24px 0;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.intro-popup button {
+  padding: 12px 32px;
+  background: var(--organic-accent, #4ade80);
+  color: #0a0a0a;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.intro-popup button:active {
+  transform: scale(0.95);
+}
+
+/* Similar Verses Modal */
+.similar-verses-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 1000;
+  padding: 0;
+}
+
+.similar-verses-modal {
+  background: rgba(15, 15, 15, 0.98);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  width: 100%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -10px 60px rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: none;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.close-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: inherit;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.close-button:active {
+  transform: scale(0.9);
+}
+
+.selected-text-preview {
+  padding: 16px 24px;
+  background: rgba(74, 222, 128, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.selected-text-preview p {
+  margin: 0;
+  font-style: italic;
+  opacity: 0.8;
+  font-size: 0.95rem;
+}
+
+.similar-verses-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.searching-text,
+.no-results {
+  text-align: center;
+  padding: 40px 20px;
+  opacity: 0.7;
+}
+
+.similar-verse-item {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.verse-reference {
+  display: block;
+  color: var(--organic-accent, #4ade80);
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.verse-text-similar {
+  margin: 0;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* Tablet & Desktop Adjustments */
+@media (min-width: 768px) {
+  .readbible-header {
+    padding: 20px 32px;
+  }
+
+  .tab-content {
+    padding: 32px;
+  }
+
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .chapters-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+
+  .similar-verses-overlay {
+    align-items: center;
+  }
+
+  .similar-verses-modal {
+    border-radius: 20px;
+    max-width: 600px;
+    max-height: 70vh;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Old styles - keeping for backwards compatibility */
 .readbible-page .readbible-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -9,7 +797,6 @@
   }
 }
 
-/* Sidebar book list */
 .books-column {
   display: flex;
   flex-direction: column;
@@ -19,7 +806,6 @@
   padding-right: 4px;
 }
 
-/* Book card */
 .book-card {
   padding: 12px 14px;
   border-radius: 12px;
@@ -40,14 +826,12 @@
 .book-title { font-weight: 700; }
 .book-meta { font-size: 0.85rem; opacity: 0.8; }
 
-/* Reading column */
 .reading-column {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-/* Chapter navigator */
 .chapter-nav {
   display:flex;
   align-items:center;
@@ -66,7 +850,6 @@
 body.organic .nav-btn { background: rgba(255,255,255,0.03); color: var(--organic-text); }
 body.brutalist .nav-btn { background: #fff; color: var(--brutalist-text); border: 2px solid var(--brutalist-text); }
 
-/* Chapter card & verses */
 .chapter-card {
   padding: 16px;
   border-radius: 14px;
@@ -83,12 +866,6 @@ body.brutalist .nav-btn { background: #fff; color: var(--brutalist-text); border
   background: rgba(255,255,255,0.01);
   border: 1px solid rgba(255,255,255,0.02);
 }
-.verse-number {
-  font-weight:700;
-  min-width:28px;
-  color:var(--organic-accent);
-}
-.verse-text { flex:1; line-height:1.5; color:inherit; }
 .explain-btn {
   margin-left: 8px;
   border: none;
