@@ -85,10 +85,10 @@ body.brutalist {
 /* Header */
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin-bottom: 20px;
-  padding-top: 10px;
+  padding-top: 20px;
 }
 
 .back-button {
@@ -111,7 +111,7 @@ body.brutalist .back-button { color: var(--brutalist-text); font-family: 'Bebas 
 body.organic .back-icon { stroke: var(--organic-accent); }
 body.brutalist .back-icon { stroke: var(--brutalist-text); }
 
-.theme-toggle { background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; transition: all 0.3s ease; }
+.theme-toggle { background: none; border: none; position:fixed;background: transparent; cursor: pointer; padding: 8px; border-radius: 50%; transition: all 0.3s ease; }
 body.organic .theme-toggle { background: var(--organic-card-bg); border: 1px solid var(--organic-border); }
 body.brutalist .theme-toggle { background: var(--brutalist-text); border: 3px solid var(--brutalist-text); }
 
@@ -149,12 +149,14 @@ body.brutalist .suggestion-chip:active { background: var(--brutalist-text); colo
 /* Chat container */
 .chat-container {
   flex: 1;
-  overflow-y: auto;
+  overflow: auto;
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   gap: 15px;
   padding: 5px;
+  padding-bottom: 100px;;
+
 }
 .chat-container::-webkit-scrollbar { width: 6px; }
 body.organic .chat-container::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 3px; }
@@ -193,7 +195,41 @@ body.brutalist .typing-dot { background: var(--brutalist-text); }
 }
 
 /* Input area */
-.input-area { display: flex; gap: 10px; align-items: flex-end; padding-bottom: 10px; }
+.input-area {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  padding: 12px 16px;
+  position: fixed;
+  bottom: 0; 
+  
+  
+  /* Add your responsive side margins */
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: #071414;
+  z-index: 100;
+  box-sizing: border-box;
+}
+
+/* PC margins */
+@media (min-width: 1024px) {
+  .input-area {
+    left: 300px;
+    right: 300px;
+    width: calc(100% - 600px);
+  }
+}
+
+/* Tablet margins */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .input-area {
+    left: 100px;
+    right: 100px;
+    width: calc(100% - 200px);
+  }
+}
 .input-wrapper { flex: 1; position: relative; }
 
 .message-input {

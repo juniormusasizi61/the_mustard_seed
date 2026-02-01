@@ -287,16 +287,7 @@ export default function Chat() {
       return (
     <div className="container chat-page">
       <div className="header">
-        <button className="back-button" onClick={goBack}>
-          <svg className="back-icon" viewBox="0 0 24 24" fill="none">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M10 19l-7-7m0 0l7-7m-7 7h18"
-            />
-          </svg>
-          <span>Back</span>
-        </button>
+        
 
         <button className="theme-toggle" onClick={toggleTheme}>
           <svg className="theme-icon" viewBox="0 0 24 24">
