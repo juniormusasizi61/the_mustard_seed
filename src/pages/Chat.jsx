@@ -207,7 +207,7 @@ export default function Chat() {
       },
       body: JSON.stringify({
         question: userMsg.content,
-        history: messages, // adapt shape if your backend expects different keys
+        history: [...messages, userMsg], // include latest user message in context
       }),
     });
     // Handle non-2xx responses
