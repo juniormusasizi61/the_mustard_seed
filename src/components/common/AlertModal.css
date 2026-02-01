@@ -1,0 +1,238 @@
+/* Alert Modal Backdrop */
+.alert-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.2s ease;
+  padding: 20px;
+}
+
+/* Alert Modal Container */
+.alert-modal {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 16px;
+  overflow: hidden;
+  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Organic Theme */
+body.organic .alert-modal {
+  background: linear-gradient(135deg, rgba(10, 26, 26, 0.98) 0%, rgba(5, 16, 16, 0.98) 100%);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  color: var(--organic-text);
+}
+
+body.brutalist .alert-modal {
+  background: var(--brutalist-bg);
+  border: 4px solid var(--brutalist-text);
+  box-shadow: 8px 8px 0 var(--brutalist-text), 0 20px 60px rgba(0, 0, 0, 0.4);
+  color: var(--brutalist-text);
+}
+
+/* Modal Icon */
+.alert-modal-icon {
+  padding: 32px 24px 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.alert-modal-icon svg {
+  stroke-width: 2;
+}
+
+body.organic .alert-modal-info .alert-modal-icon svg {
+  stroke: var(--organic-accent);
+}
+
+body.organic .alert-modal-success .alert-modal-icon svg {
+  stroke: #4ade80;
+}
+
+body.organic .alert-modal-warning .alert-modal-icon svg {
+  stroke: #fbbf24;
+}
+
+body.organic .alert-modal-error .alert-modal-icon svg {
+  stroke: #ef4444;
+}
+
+body.brutalist .alert-modal-info .alert-modal-icon svg {
+  stroke: var(--brutalist-text);
+}
+
+body.brutalist .alert-modal-success .alert-modal-icon svg {
+  stroke: #22c55e;
+}
+
+body.brutalist .alert-modal-warning .alert-modal-icon svg {
+  stroke: #f59e0b;
+}
+
+body.brutalist .alert-modal-error .alert-modal-icon svg {
+  stroke: #ef4444;
+}
+
+/* Modal Header */
+.alert-modal-header {
+  padding: 0 24px 16px;
+}
+
+.alert-modal-header h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+body.organic .alert-modal-header h3 {
+  color: var(--organic-accent);
+}
+
+body.brutalist .alert-modal-header h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  letter-spacing: 1px;
+}
+
+/* Modal Body */
+.alert-modal-body {
+  padding: 0 24px 24px;
+}
+
+.alert-modal-body p {
+  margin: 0;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+body.organic .alert-modal-body p {
+  color: var(--organic-text-muted);
+}
+
+/* Checkbox Section */
+.alert-modal-checkbox {
+  padding: 0 24px 16px;
+  text-align: left;
+}
+
+.alert-modal-checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  justify-content: center;
+}
+
+.alert-modal-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--organic-accent);
+}
+
+body.brutalist .alert-modal-checkbox input[type="checkbox"] {
+  accent-color: var(--brutalist-accent);
+}
+
+.alert-modal-checkbox span {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Modal Actions */
+.alert-modal-actions {
+  padding: 20px 24px 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.alert-modal-btn {
+  padding: 12px 32px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+/* OK Button */
+body.organic .ok-btn {
+  background: linear-gradient(135deg, var(--organic-accent), var(--organic-accent-soft));
+  color: var(--organic-bg-primary);
+  border: 1px solid transparent;
+}
+
+body.organic .ok-btn:hover {
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
+  transform: translateY(-1px);
+}
+
+body.organic .ok-btn:active {
+  transform: translateY(0) scale(0.96);
+}
+
+body.brutalist .ok-btn {
+  background: var(--brutalist-accent);
+  color: white;
+  border: 3px solid var(--brutalist-text);
+  border-radius: 0;
+  box-shadow: 3px 3px 0 var(--brutalist-text);
+}
+
+body.brutalist .ok-btn:hover {
+  background: var(--brutalist-text);
+  color: var(--brutalist-bg);
+}
+
+body.brutalist .ok-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--brutalist-text);
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .alert-modal {
+    max-width: 100%;
+    margin: 0 16px;
+  }
+
+  .alert-modal-header,
+  .alert-modal-body,
+  .alert-modal-checkbox {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .alert-modal-actions {
+    padding: 16px 20px 20px;
+  }
+
+  .alert-modal-btn {
+    width: 100%;
+    min-width: auto;
+  }
+}
