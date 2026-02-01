@@ -129,10 +129,6 @@ export default function Chat() {
     setTheme((t) => (t === "organic" ? "brutalist" : "organic"));
   };
 
-  const goBack = () => {
-    window.history.back();
-  };
-
   const adjustTextareaHeight = () => {
     const ta = textareaRef.current;
     if (!ta) return;
