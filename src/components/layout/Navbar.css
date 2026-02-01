@@ -38,16 +38,40 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px 18px;
-  border-radius: 12px;
-  margin: 12px;
+  border-radius: 0;
+  margin: 0;
   gap: 12px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 /* organic/brutalist backgrounds */
-body.organic .navbar { background: rgba(74,222,128,0.06); border: 1px solid rgba(74,222,128,0.18); color: var(--organic-text); }
-body.brutalist .navbar { background: var(--brutalist-bg); border: 3px solid var(--brutalist-text); color: var(--brutalist-text); }
+body.organic .navbar { background: rgba(10,26,26,0.95); border-bottom: 1px solid rgba(74,222,128,0.18); color: var(--organic-text); backdrop-filter: blur(10px); }
+body.brutalist .navbar { background: var(--brutalist-bg); border-bottom: 3px solid var(--brutalist-text); color: var(--brutalist-text); }
 
 .navbar-logo { font-weight: 700; font-size: 1rem; }
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px 14px;
+  }
+  
+  .navbar-logo {
+    font-size: 0.9rem;
+  }
+  
+  .navbar-links {
+    gap: 14px;
+  }
+  
+  .navbar-links a {
+    font-size: 0.85rem;
+  }
+}
 
 .navbar-links {
   display: flex;
