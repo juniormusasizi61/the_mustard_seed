@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
   updateProfile
 } from 'firebase/auth';
 import { auth } from '../config/firebase';
@@ -56,7 +57,20 @@ export const AuthProvider = ({ children }) => {
   // Sign in with Google
   const loginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
-    return signInWithPopup(auth, provider);
+    // Force account chooser to show available signed-in accounts
+    provider.setCustomParameters({ prompt: 'select_account' });
+    try {
+      return await signInWithPopup(auth, provider);
+    } catch (err) {
+      // Fallback to redirect in environments where popups are blocked
+      if (
+        err?.code === 'auth/popup-blocked' ||
+        err?.code === 'auth/operation-not-supported-in-this-environment'
+      ) {
+        return signInWithRedirect(auth, provider);
+      }
+      throw err;
+    }
   };
 
   // Sign out
