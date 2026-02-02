@@ -262,6 +262,20 @@ body.brutalist .chapter-item:active {
   gap: 16px;
 }
 
+/* Verses layout with sidebar on larger screens */
+.verses-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 992px) {
+  .verses-layout {
+    grid-template-columns: 1fr 320px;
+    align-items: start;
+  }
+}
+
 .verse-item {
   display: flex;
   gap: 12px;
@@ -285,6 +299,68 @@ body.brutalist .verse-number {
   user-select: text;
   -webkit-user-select: text;
   font-size: 1.05rem;
+}
+
+.fav-toggle-btn {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  color: #4ade80;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+body.brutalist .fav-toggle-btn { color: #ff6b9d; }
+.fav-toggle-btn.active { filter: drop-shadow(0 0 4px rgba(74, 222, 128, 0.6)); }
+body.brutalist .fav-toggle-btn.active { filter: none; }
+
+/* Favorites Sidebar */
+.favorites-sidebar {
+  position: relative;
+}
+.favorites-sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.favorites-sidebar-title { font-weight: 700; }
+.favorites-count { opacity: 0.7; font-size: 0.85rem; }
+
+.favorites-sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.favorites-empty {
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.favorites-sidebar-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 1fr 24px;
+  gap: 6px 8px;
+  cursor: pointer;
+}
+body.brutalist .favorites-sidebar-item { background: #fff; border: 2px solid #000; }
+.fav-ref { color: var(--organic-accent, #4ade80); font-size: 0.85rem; }
+.fav-text { grid-column: 1 / -1; margin: 0; opacity: 0.9; }
+.remove-fav-small {
+  border: none;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 /* Chapter Navigation Buttons */

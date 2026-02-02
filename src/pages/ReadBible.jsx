@@ -84,7 +84,7 @@ export default function ReadBible() {
   const [expandedTestament, setExpandedTestament] = useState({ old: false, new: false, favorites: false });
   
   const { fetchChapter, loading, error } = useBibleApi();
-  const { favorites, addFavorite, removeFavorite } = useFavorites();
+  const { favorites, addFavorite, removeFavorite, isFavorite } = useFavorites();
   const { bookmark, saveBookmark } = useBookmark();
 
   // Apply theme on mount and when it changes
@@ -207,6 +207,28 @@ export default function ReadBible() {
     if (book) {
       setSelectedBook(book);
       setSelectedChapter(fav.chapter);
+    }
+  };
+
+  const toggleFavoriteForVerse = (verseObj) => {
+    const { verse } = verseObj;
+    const book = selectedBook?.book;
+    const chapter = selectedChapter;
+    if (!book || !chapter) return;
+
+    if (isFavorite(book, chapter, verse)) {
+      // Find favorite id and remove
+      const fav = favorites.find(
+        (f) => f.book === book && f.chapter === chapter && f.verse === verse
+      );
+      if (fav) removeFavorite(fav.id);
+    } else {
+      addFavorite({
+        book,
+        chapter,
+        verseNumber: verse,
+        text: verseObj.text,
+      });
     }
   };
 
@@ -443,13 +465,28 @@ export default function ReadBible() {
           )}
 
           {currentChapter && !loading && (
-            <div className="verses-container">
-              {currentChapter.verses.map((verse) => (
-                <div key={verse.verse} className="verse-item">
-                  <span className="verse-number">{verse.verse}</span>
-                  <span className="verse-text">{verse.text}</span>
-                </div>
-              ))}
+            <div className="verses-layout">
+              <div className="verses-container">
+                {currentChapter.verses.map((verse) => {
+                  const favActive = isFavorite(
+                    selectedBook?.book,
+                    selectedChapter,
+                    verse.verse
+                  );
+                  return (
+                    <div key={verse.verse} className="verse-item">
+                      <span className="verse-number">{verse.verse}</span>
+                      <span className="verse-text">{verse.text}</span>
+                      <button
+                        className={`fav-toggle-btn ${favActive ? "active" : ""}`}
+                        title={favActive ? "Remove from favorites" : "Add to favorites"}
+                        onClick={() => toggleFavoriteForVerse(verse)}
+                      >
+                        {favActive ? "★" : "☆"}
+                      </button>
+                    </div>
+                  );
+                })}
 
               {/* Chapter Navigation Buttons */}
               <div className="chapter-navigation-buttons">
@@ -479,6 +516,34 @@ export default function ReadBible() {
                   </button>
                 )}
               </div>
+              </div>
+              <aside className="favorites-sidebar">
+                <div className="favorites-sidebar-header">
+                  <span className="favorites-sidebar-title">⭐ Favorites</span>
+                  <span className="favorites-count">{favorites.length}</span>
+                </div>
+                <div className="favorites-sidebar-list">
+                  {favorites.filter((f) => f.book === selectedBook?.book && f.chapter === selectedChapter).length === 0 ? (
+                    <p className="favorites-empty">No favorites in this chapter yet.</p>
+                  ) : (
+                    favorites
+                      .filter((f) => f.book === selectedBook?.book && f.chapter === selectedChapter)
+                      .map((fav) => (
+                        <div key={fav.id} className="favorites-sidebar-item" onClick={() => handleFavoriteClick(fav)}>
+                          <span className="fav-ref">{fav.book} {fav.chapter}:{fav.verse}</span>
+                          <button
+                            className="remove-fav-small"
+                            onClick={(e) => { e.stopPropagation(); removeFavorite(fav.id); }}
+                            aria-label="Remove favorite"
+                          >
+                            ×
+                          </button>
+                          <p className="fav-text">{fav.text}</p>
+                        </div>
+                      ))
+                  )}
+                </div>
+              </aside>
             </div>
           )}
         </div>
