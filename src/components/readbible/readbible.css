@@ -76,7 +76,7 @@ body.brutalist .back-button:hover {
 }
 
 /* Chapter picker button in header */
-.chapter-picker-btn, .book-picker-btn {
+.chapter-picker-btn, .book-picker-btn, .testament-picker-btn {
   background: rgba(255, 255, 255, 0.1);
   border: none;
   color: inherit;
@@ -85,12 +85,12 @@ body.brutalist .back-button:hover {
   font-size: 14px;
   cursor: pointer;
 }
-body.brutalist .chapter-picker-btn, body.brutalist .book-picker-btn {
+body.brutalist .chapter-picker-btn, body.brutalist .book-picker-btn, body.brutalist .testament-picker-btn {
   background: #000000;
   color: #ffffff;
   border: 2px solid #000000;
 }
-.chapter-picker-btn:active, .book-picker-btn:active { transform: scale(0.97); }
+.chapter-picker-btn:active, .book-picker-btn:active, .testament-picker-btn:active { transform: scale(0.97); }
 
 .theme-toggle {
   background: none;

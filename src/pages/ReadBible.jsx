@@ -86,7 +86,8 @@ export default function ReadBible() {
   const [alertModal, setAlertModal] = useState({ isOpen: false, title: '', message: '', type: 'success' });
   const [showChapterPicker, setShowChapterPicker] = useState(false);
   const [showBookPicker, setShowBookPicker] = useState(false);
-  const isPickerOpen = showChapterPicker || showBookPicker;
+  const [showTestamentPicker, setShowTestamentPicker] = useState(false);
+  const isPickerOpen = showChapterPicker || showBookPicker || showTestamentPicker;
   
   const { fetchChapter, loading, error } = useBibleApi();
   const { favorites, addFavorite, removeFavorite, isFavorite } = useFavorites();
@@ -345,6 +346,14 @@ export default function ReadBible() {
         )}
         {activeTab === "verses" && (
           <>
+          <button 
+            className="testament-picker-btn" 
+            onClick={() => setShowTestamentPicker(true)}
+            aria-haspopup="dialog"
+            aria-expanded={showTestamentPicker}
+          >
+            {oldTestament.some(b => b.book === selectedBook?.book) ? 'Old Testament' : 'New Testament'} ▼
+          </button>
           <button 
             className="book-picker-btn" 
             onClick={() => setShowBookPicker(true)}
@@ -673,6 +682,40 @@ export default function ReadBible() {
                   <span className="book-chapters">{book.chapters}</span>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Testament Picker Overlay */}
+      {showTestamentPicker && (
+        <div className="chapter-picker-overlay" onClick={() => setShowTestamentPicker(false)}>
+          <div className="chapter-picker-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+            <div className="chapter-picker-header">
+              <h3>Select Testament</h3>
+              <button className="close-button" onClick={() => setShowTestamentPicker(false)} aria-label="Close">×</button>
+            </div>
+            <div className="chapters-grid picker-grid">
+              {['Old Testament', 'New Testament'].map((label) => {
+                const isOld = label === 'Old Testament';
+                const currentIsOld = oldTestament.some(b => b.book === selectedBook?.book);
+                return (
+                  <div
+                    key={label}
+                    className={`chapter-item ${currentIsOld === isOld ? 'active' : ''}`}
+                    onClick={() => {
+                      const nextBook = isOld ? oldTestament[0] : newTestament[0];
+                      setSelectedBook(nextBook);
+                      setSelectedChapter(1);
+                      setCurrentChapter(null);
+                      setShowTestamentPicker(false);
+                      setShowBookPicker(true);
+                    }}
+                  >
+                    {label}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
