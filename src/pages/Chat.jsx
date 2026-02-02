@@ -375,7 +375,7 @@ export default function Chat() {
 
   setIsProcessing(true);
 
-  const backendUrl = import.meta.env.VITE_RAG_API_URL || "https://verilia-final.onrender.com/";
+  const backendUrl = import.meta.env.VITE_RAG_API_URL || "https://verilia-final.onrender.com/chat";
   const apiKey = import.meta.env.VITE_RAG_API_KEY;
   // Prepare conversation history excluding user messages for context
   try {
@@ -445,10 +445,16 @@ export default function Chat() {
       showToast("Already saved");
       return;
     }
+    
+    // Show save modal with tags input
     const title = msg.content.split("\n")[0].slice(0, 80) || "Saved Insight";
+    const tags = prompt("Add tags (comma separated, optional):");
+    const tagArray = tags ? tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0) : [];
+    
     addNote({
       title,
       content: msg.content,
+      tags: tagArray
     });
     showToast("Saved");
   };
