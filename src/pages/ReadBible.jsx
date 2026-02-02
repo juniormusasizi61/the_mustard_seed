@@ -86,6 +86,7 @@ export default function ReadBible() {
   const [alertModal, setAlertModal] = useState({ isOpen: false, title: '', message: '', type: 'success' });
   const [showChapterPicker, setShowChapterPicker] = useState(false);
   const [showBookPicker, setShowBookPicker] = useState(false);
+  const isPickerOpen = showChapterPicker || showBookPicker;
   
   const { fetchChapter, loading, error } = useBibleApi();
   const { favorites, addFavorite, removeFavorite, isFavorite } = useFavorites();
@@ -109,6 +110,19 @@ export default function ReadBible() {
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
+
+  // Disable background scroll when any picker is open
+  useEffect(() => {
+    const original = document.body.style.overflow;
+    if (isPickerOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = original || '';
+    }
+    return () => {
+      document.body.style.overflow = original || '';
+    };
+  }, [isPickerOpen]);
 
   const toggleTestament = (testament) => {
     setExpandedTestament(prev => ({
@@ -318,6 +332,7 @@ export default function ReadBible() {
 
   return (
     <div className="readbible-mobile">
+      <div className="readbible-content" aria-hidden={isPickerOpen}>
       {/* Header with navigation */}
       <div className="readbible-header">
         {activeTab === "chapters" && (
@@ -671,6 +686,7 @@ export default function ReadBible() {
         message={alertModal.message}
         type={alertModal.type}
       />
+      </div>
     </div>
   );
 }
