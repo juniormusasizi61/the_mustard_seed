@@ -15,6 +15,7 @@ export default function Profile() {
   const [theme, setTheme] = useState(
     () => localStorage.getItem("theme") || "organic"
   );
+  const photoURL = user?.photoURL || null;
   const [alertModal, setAlertModal] = useState({
     isOpen: false,
     title: '',
@@ -129,7 +130,16 @@ export default function Profile() {
           ) : (
             // Show profile for logged-in users
             <>
-              <div className="avatar">👤</div>
+              {photoURL ? (
+                <img
+                  className="avatar-img"
+                  src={photoURL}
+                  alt={(localUser?.name || user?.displayName || 'Profile') + ' avatar'}
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <div className="avatar">👤</div>
+              )}
 
               {!editing ? (
                 <>
