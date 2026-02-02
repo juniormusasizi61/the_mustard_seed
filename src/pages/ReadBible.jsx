@@ -84,6 +84,7 @@ export default function ReadBible() {
   const [selectedVerse, setSelectedVerse] = useState(null);
   const [expandedTestament, setExpandedTestament] = useState({ old: false, new: false, favorites: false });
   const [alertModal, setAlertModal] = useState({ isOpen: false, title: '', message: '', type: 'success' });
+  const [showChapterPicker, setShowChapterPicker] = useState(false);
   
   const { fetchChapter, loading, error } = useBibleApi();
   const { favorites, addFavorite, removeFavorite, isFavorite } = useFavorites();
@@ -256,11 +257,7 @@ export default function ReadBible() {
     setSelectedChapter(null);
   };
 
-  const handleBackToChapters = () => {
-    setActiveTab("chapters");
-    setSelectedChapter(null);
-    setCurrentChapter(null);
-  };
+  // Removed back-to-chapters flow in favor of chapter picker
 
   // Navigation helpers for previous/next chapter
   const getAdjacentChapter = (direction) => {
@@ -320,12 +317,22 @@ export default function ReadBible() {
     <div className="readbible-mobile">
       {/* Header with navigation */}
       <div className="readbible-header">
-        {activeTab !== "books" && (
+        {activeTab === "chapters" && (
           <button 
             className="back-button" 
-            onClick={activeTab === "chapters" ? handleBackToBooks : handleBackToChapters}
+            onClick={handleBackToBooks}
           >
             ← Back
+          </button>
+        )}
+        {activeTab === "verses" && (
+          <button 
+            className="chapter-picker-btn" 
+            onClick={() => setShowChapterPicker(true)}
+            aria-haspopup="dialog"
+            aria-expanded={showChapterPicker}
+          >
+            {selectedBook?.book} · Ch {selectedChapter} ▼
           </button>
         )}
         <h1 className="readbible-title">
@@ -583,6 +590,32 @@ export default function ReadBible() {
               <button className="add-btn" onClick={handleAddToFavorites}>
                 Add
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Chapter Picker Overlay */}
+      {showChapterPicker && selectedBook && (
+        <div className="chapter-picker-overlay" onClick={() => setShowChapterPicker(false)}>
+          <div className="chapter-picker-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+            <div className="chapter-picker-header">
+              <h3>Select Chapter</h3>
+              <button className="close-button" onClick={() => setShowChapterPicker(false)} aria-label="Close">×</button>
+            </div>
+            <div className="chapters-grid picker-grid">
+              {Array.from({ length: selectedBook.chapters }, (_, i) => i + 1).map((chapterNum) => (
+                <div
+                  key={chapterNum}
+                  className={`chapter-item ${chapterNum === selectedChapter ? 'active' : ''}`}
+                  onClick={() => {
+                    setShowChapterPicker(false);
+                    handleChapterSelect(chapterNum);
+                  }}
+                >
+                  {chapterNum}
+                </div>
+              ))}
             </div>
           </div>
         </div>

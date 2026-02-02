@@ -75,6 +75,23 @@ body.brutalist .back-button:hover {
   transform: scale(0.95);
 }
 
+/* Chapter picker button in header */
+.chapter-picker-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: inherit;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+body.brutalist .chapter-picker-btn {
+  background: #000000;
+  color: #ffffff;
+  border: 2px solid #000000;
+}
+.chapter-picker-btn:active { transform: scale(0.97); }
+
 .theme-toggle {
   background: none;
   border: none;
@@ -721,6 +738,36 @@ body.brutalist .add-btn {
 .intro-popup button:active {
   transform: scale(0.95);
 }
+
+/* Chapter Picker Overlay */
+.chapter-picker-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.chapter-picker-modal {
+  background: rgba(20, 20, 20, 0.98);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 16px;
+  padding: 20px;
+  max-width: 480px;
+  width: 100%;
+}
+body.brutalist .chapter-picker-modal {
+  background: #ffffff;
+  border: 3px solid #000000;
+}
+.chapter-picker-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.chapter-picker-header h3 { margin: 0; color: var(--organic-accent, #4ade80); }
+.picker-grid { grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); }
+.chapter-item.active { outline: 2px solid var(--organic-accent, #4ade80); background: rgba(74, 222, 128, 0.15); }
+body.brutalist .chapter-item.active { outline-color: #000; background: #ffeb3b; }
 
 /* Similar Verses Modal */
 .similar-verses-overlay {
