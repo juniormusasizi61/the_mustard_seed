@@ -67,6 +67,7 @@ import { useState, useEffect } from "react";
 import { oldTestament, newTestament } from "../data/bible";
 import { useBibleApi } from "../hooks/useBibleApi";
 import { useFavorites } from "../hooks/useFavorites";
+import AlertModal from "../components/common/AlertModal";
 import { useBookmark } from "../hooks/useBookmark";
 import "../components/readbible/readbible.css";
 
@@ -82,9 +83,14 @@ export default function ReadBible() {
   const [showAddFavorite, setShowAddFavorite] = useState(false);
   const [selectedVerse, setSelectedVerse] = useState(null);
   const [expandedTestament, setExpandedTestament] = useState({ old: false, new: false, favorites: false });
+  const [alertModal, setAlertModal] = useState({ isOpen: false, title: '', message: '', type: 'success' });
+  const [showChapterPicker, setShowChapterPicker] = useState(false);
+  const [showBookPicker, setShowBookPicker] = useState(false);
+  const [showTestamentPicker, setShowTestamentPicker] = useState(false);
+  const isPickerOpen = showChapterPicker || showBookPicker || showTestamentPicker;
   
   const { fetchChapter, loading, error } = useBibleApi();
-  const { favorites, addFavorite, removeFavorite } = useFavorites();
+  const { favorites, addFavorite, removeFavorite, isFavorite } = useFavorites();
   const { bookmark, saveBookmark } = useBookmark();
 
   // Apply theme on mount and when it changes
@@ -105,6 +111,19 @@ export default function ReadBible() {
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
+
+  // Disable background scroll when any picker is open
+  useEffect(() => {
+    const original = document.body.style.overflow;
+    if (isPickerOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = original || '';
+    }
+    return () => {
+      document.body.style.overflow = original || '';
+    };
+  }, [isPickerOpen]);
 
   const toggleTestament = (testament) => {
     setExpandedTestament(prev => ({
@@ -198,6 +217,14 @@ export default function ReadBible() {
       setSelectedVerse(null);
       // Clear selection
       window.getSelection().removeAllRanges();
+
+      // Show success alert
+      setAlertModal({
+        isOpen: true,
+        title: 'Added to Favorites',
+        message: `${selectedVerse.book} ${selectedVerse.chapter}:${selectedVerse.verseNumber} has been added to your favorites.`,
+        type: 'success'
+      });
     }
   };
 
@@ -210,17 +237,45 @@ export default function ReadBible() {
     }
   };
 
+  const toggleFavoriteForVerse = (verseObj) => {
+    const { verse } = verseObj;
+    const book = selectedBook?.book;
+    const chapter = selectedChapter;
+    if (!book || !chapter) return;
+
+    if (isFavorite(book, chapter, verse)) {
+      // Find favorite id and remove
+      const fav = favorites.find(
+        (f) => f.book === book && f.chapter === chapter && f.verse === verse
+      );
+      if (fav) removeFavorite(fav.id);
+    } else {
+      addFavorite({
+        book,
+        chapter,
+        verseNumber: verse,
+        text: verseObj.text,
+      });
+
+      // Show success alert
+      setAlertModal({
+        isOpen: true,
+        title: 'Added to Favorites',
+        message: `${book} ${chapter}:${verse} has been added to your favorites.`,
+        type: 'success'
+      });
+    }
+  };
+
   const handleBackToBooks = () => {
     setActiveTab("books");
     setSelectedBook(null);
     setSelectedChapter(null);
   };
 
-  const handleBackToChapters = () => {
-    setActiveTab("chapters");
-    setSelectedChapter(null);
-    setCurrentChapter(null);
-  };
+  // Back to books replaced by Book Picker in verses view
+
+  // Removed back-to-chapters flow in favor of chapter picker
 
   // Navigation helpers for previous/next chapter
   const getAdjacentChapter = (direction) => {
@@ -278,15 +333,44 @@ export default function ReadBible() {
 
   return (
     <div className="readbible-mobile">
+      <div className="readbible-content" aria-hidden={isPickerOpen}>
       {/* Header with navigation */}
       <div className="readbible-header">
-        {activeTab !== "books" && (
+        {activeTab === "chapters" && (
           <button 
             className="back-button" 
-            onClick={activeTab === "chapters" ? handleBackToBooks : handleBackToChapters}
+            onClick={handleBackToBooks}
           >
             ← Back
           </button>
+        )}
+        {activeTab === "verses" && (
+          <>
+          <button 
+            className="testament-picker-btn" 
+            onClick={() => setShowTestamentPicker(true)}
+            aria-haspopup="dialog"
+            aria-expanded={showTestamentPicker}
+          >
+            {oldTestament.some(b => b.book === selectedBook?.book) ? 'Old Testament' : 'New Testament'} ▼
+          </button>
+          <button 
+            className="book-picker-btn" 
+            onClick={() => setShowBookPicker(true)}
+            aria-haspopup="dialog"
+            aria-expanded={showBookPicker}
+          >
+            {oldTestament.some(b => b.book === selectedBook?.book) ? 'Old Testament' : 'New Testament'} ▼
+          </button>
+          <button 
+            className="chapter-picker-btn" 
+            onClick={() => setShowChapterPicker(true)}
+            aria-haspopup="dialog"
+            aria-expanded={showChapterPicker}
+          >
+            {selectedBook?.book} · Ch {selectedChapter} ▼
+          </button>
+          </>
         )}
         <h1 className="readbible-title">
           {activeTab === "books" && "Read the Bible"}
@@ -443,13 +527,28 @@ export default function ReadBible() {
           )}
 
           {currentChapter && !loading && (
-            <div className="verses-container">
-              {currentChapter.verses.map((verse) => (
-                <div key={verse.verse} className="verse-item">
-                  <span className="verse-number">{verse.verse}</span>
-                  <span className="verse-text">{verse.text}</span>
-                </div>
-              ))}
+            <div className="verses-layout">
+              <div className="verses-container">
+                {currentChapter.verses.map((verse) => {
+                  const favActive = isFavorite(
+                    selectedBook?.book,
+                    selectedChapter,
+                    verse.verse
+                  );
+                  return (
+                    <div key={verse.verse} className="verse-item">
+                      <span className="verse-number">{verse.verse}</span>
+                      <span className="verse-text">{verse.text}</span>
+                      <button
+                        className={`fav-toggle-btn ${favActive ? "active" : ""}`}
+                        title={favActive ? "Remove from favorites" : "Add to favorites"}
+                        onClick={() => toggleFavoriteForVerse(verse)}
+                      >
+                        {favActive ? "★" : "☆"}
+                      </button>
+                    </div>
+                  );
+                })}
 
               {/* Chapter Navigation Buttons */}
               <div className="chapter-navigation-buttons">
@@ -479,6 +578,34 @@ export default function ReadBible() {
                   </button>
                 )}
               </div>
+              </div>
+              <aside className="favorites-sidebar">
+                <div className="favorites-sidebar-header">
+                  <span className="favorites-sidebar-title">⭐ Favorites</span>
+                  <span className="favorites-count">{favorites.length}</span>
+                </div>
+                <div className="favorites-sidebar-list">
+                  {favorites.filter((f) => f.book === selectedBook?.book && f.chapter === selectedChapter).length === 0 ? (
+                    <p className="favorites-empty">No favorites in this chapter yet.</p>
+                  ) : (
+                    favorites
+                      .filter((f) => f.book === selectedBook?.book && f.chapter === selectedChapter)
+                      .map((fav) => (
+                        <div key={fav.id} className="favorites-sidebar-item" onClick={() => handleFavoriteClick(fav)}>
+                          <span className="fav-ref">{fav.book} {fav.chapter}:{fav.verse}</span>
+                          <button
+                            className="remove-fav-small"
+                            onClick={(e) => { e.stopPropagation(); removeFavorite(fav.id); }}
+                            aria-label="Remove favorite"
+                          >
+                            ×
+                          </button>
+                          <p className="fav-text">{fav.text}</p>
+                        </div>
+                      ))
+                  )}
+                </div>
+              </aside>
             </div>
           )}
         </div>
@@ -504,6 +631,112 @@ export default function ReadBible() {
           </div>
         </div>
       )}
+
+      {/* Chapter Picker Overlay */}
+      {showChapterPicker && selectedBook && (
+        <div className="chapter-picker-overlay" onClick={() => setShowChapterPicker(false)}>
+          <div className="chapter-picker-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+            <div className="chapter-picker-header">
+              <h3>Select Chapter</h3>
+              <button className="close-button" onClick={() => setShowChapterPicker(false)} aria-label="Close">×</button>
+            </div>
+            <div className="chapters-grid picker-grid">
+              {Array.from({ length: selectedBook.chapters }, (_, i) => i + 1).map((chapterNum) => (
+                <div
+                  key={chapterNum}
+                  className={`chapter-item ${chapterNum === selectedChapter ? 'active' : ''}`}
+                  onClick={() => {
+                    setShowChapterPicker(false);
+                    handleChapterSelect(chapterNum);
+                  }}
+                >
+                  {chapterNum}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Book Picker Overlay (current testament) */}
+      {showBookPicker && selectedBook && (
+        <div className="chapter-picker-overlay" onClick={() => setShowBookPicker(false)}>
+          <div className="chapter-picker-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+            <div className="chapter-picker-header">
+              <h3>Select Book</h3>
+              <button className="close-button" onClick={() => setShowBookPicker(false)} aria-label="Close">×</button>
+            </div>
+            <div className="books-grid">
+              {(oldTestament.some(b => b.book === selectedBook.book) ? oldTestament : newTestament).map((book) => (
+                <div
+                  key={book.book}
+                  className={`book-item ${book.book === selectedBook.book ? 'active' : ''}`}
+                  onClick={() => {
+                    setShowBookPicker(false);
+                    setSelectedBook(book);
+                    setCurrentChapter(null);
+                    setSelectedChapter(1);
+                  }}
+                >
+                  <span className="book-name">{book.book}</span>
+                  <span className="book-chapters">{book.chapters}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Testament Picker Overlay */}
+      {showTestamentPicker && (
+        <div className="chapter-picker-overlay" onClick={() => setShowTestamentPicker(false)}>
+          <div className="chapter-picker-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+            <div className="chapter-picker-header">
+              <h3>Select Testament</h3>
+              <button className="close-button" onClick={() => setShowTestamentPicker(false)} aria-label="Close">×</button>
+            </div>
+            <div className="testament-options">
+              {(() => {
+                const currentIsOld = oldTestament.some(b => b.book === selectedBook?.book);
+                const options = [
+                  { label: 'Old Testament', isOld: true, icon: '📜', books: oldTestament.length },
+                  { label: 'New Testament', isOld: false, icon: '✝️', books: newTestament.length },
+                ];
+                return options.map(opt => (
+                  <div
+                    key={opt.label}
+                    className={`testament-card ${opt.isOld ? 'old' : 'new'} ${currentIsOld === opt.isOld ? 'active' : ''}`}
+                    onClick={() => {
+                      const nextBook = opt.isOld ? oldTestament[0] : newTestament[0];
+                      setSelectedBook(nextBook);
+                      setSelectedChapter(1);
+                      setCurrentChapter(null);
+                      setShowTestamentPicker(false);
+                      setShowBookPicker(true);
+                    }}
+                  >
+                    <div className="testament-icon" aria-hidden="true">{opt.icon}</div>
+                    <div className="testament-info">
+                      <span className="testament-label">{opt.label}</span>
+                      <span className="testament-sub">{opt.books} books</span>
+                    </div>
+                  </div>
+                ));
+              })()}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Alert Modal for actions */}
+      <AlertModal
+        isOpen={alertModal.isOpen}
+        onClose={() => setAlertModal((m) => ({ ...m, isOpen: false }))}
+        title={alertModal.title}
+        message={alertModal.message}
+        type={alertModal.type}
+      />
+      </div>
     </div>
   );
 }

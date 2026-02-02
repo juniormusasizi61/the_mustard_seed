@@ -75,6 +75,23 @@ body.brutalist .back-button:hover {
   transform: scale(0.95);
 }
 
+/* Chapter picker button in header */
+.chapter-picker-btn, .book-picker-btn, .testament-picker-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: inherit;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+body.brutalist .chapter-picker-btn, body.brutalist .book-picker-btn, body.brutalist .testament-picker-btn {
+  background: #000000;
+  color: #ffffff;
+  border: 2px solid #000000;
+}
+.chapter-picker-btn:active, .book-picker-btn:active, .testament-picker-btn:active { transform: scale(0.97); }
+
 .theme-toggle {
   background: none;
   border: none;
@@ -262,6 +279,20 @@ body.brutalist .chapter-item:active {
   gap: 16px;
 }
 
+/* Verses layout with sidebar on larger screens */
+.verses-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 992px) {
+  .verses-layout {
+    grid-template-columns: 1fr 320px;
+    align-items: start;
+  }
+}
+
 .verse-item {
   display: flex;
   gap: 12px;
@@ -285,6 +316,68 @@ body.brutalist .verse-number {
   user-select: text;
   -webkit-user-select: text;
   font-size: 1.05rem;
+}
+
+.fav-toggle-btn {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  color: #4ade80;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+body.brutalist .fav-toggle-btn { color: #ff6b9d; }
+.fav-toggle-btn.active { filter: drop-shadow(0 0 4px rgba(74, 222, 128, 0.6)); }
+body.brutalist .fav-toggle-btn.active { filter: none; }
+
+/* Favorites Sidebar */
+.favorites-sidebar {
+  position: relative;
+}
+.favorites-sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.favorites-sidebar-title { font-weight: 700; }
+.favorites-count { opacity: 0.7; font-size: 0.85rem; }
+
+.favorites-sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.favorites-empty {
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.favorites-sidebar-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 1fr 24px;
+  gap: 6px 8px;
+  cursor: pointer;
+}
+body.brutalist .favorites-sidebar-item { background: #fff; border: 2px solid #000; }
+.fav-ref { color: var(--organic-accent, #4ade80); font-size: 0.85rem; }
+.fav-text { grid-column: 1 / -1; margin: 0; opacity: 0.9; }
+.remove-fav-small {
+  border: none;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 /* Chapter Navigation Buttons */
@@ -645,6 +738,78 @@ body.brutalist .add-btn {
 .intro-popup button:active {
   transform: scale(0.95);
 }
+
+/* Chapter Picker Overlay */
+.chapter-picker-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.chapter-picker-modal {
+  background: rgba(20, 20, 20, 0.98);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 16px;
+  padding: 20px;
+  max-width: 480px;
+  width: 100%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+body.brutalist .chapter-picker-modal {
+  background: #ffffff;
+  border: 3px solid #000000;
+}
+.chapter-picker-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.chapter-picker-header h3 { margin: 0; color: var(--organic-accent, #4ade80); }
+.picker-grid { grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); max-height: 60vh; overflow-y: auto; }
+.chapter-item.active { outline: 2px solid var(--organic-accent, #4ade80); background: rgba(74, 222, 128, 0.15); }
+body.brutalist .chapter-item.active { outline-color: #000; background: #ffeb3b; }
+
+/* Active state for book in picker */
+.book-item.active { outline: 2px solid var(--organic-accent, #4ade80); }
+body.brutalist .book-item.active { outline: 2px solid #000; }
+
+/* Make book list scrollable within modal */
+.chapter-picker-modal .books-grid { max-height: 60vh; overflow-y: auto; }
+
+/* Testament Picker Cards */
+.testament-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 480px) {
+  .testament-options { grid-template-columns: 1fr 1fr; }
+}
+.testament-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform .12s ease, background .12s ease, box-shadow .12s ease;
+}
+body.brutalist .testament-card {
+  background: #ffffff;
+  border: 2px solid #000000;
+}
+.testament-card:active { transform: scale(0.98); }
+.testament-card.active { outline: 2px solid var(--organic-accent, #4ade80); }
+body.brutalist .testament-card.active { outline: 2px solid #000; }
+.testament-icon { font-size: 1.6rem; }
+.testament-info { display: flex; flex-direction: column; }
+.testament-label { font-weight: 700; }
+.testament-sub { font-size: 0.85rem; opacity: 0.75; }
 
 /* Similar Verses Modal */
 .similar-verses-overlay {
