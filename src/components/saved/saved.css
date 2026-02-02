@@ -163,7 +163,192 @@ body.brutalist .sort-select option {
   color: var(--brutalist-text);
 }
 
-/* Date Groups */
+/* View Toggle */
+.view-toggle {
+  display: flex;
+  gap: 4px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 2px;
+}
+
+.view-btn {
+  padding: 8px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  opacity: 0.6;
+}
+
+.view-btn:hover {
+  opacity: 1;
+  background: rgba(255,255,255,0.1);
+}
+
+.view-btn.active {
+  opacity: 1;
+  background: rgba(74,222,128,0.2);
+  color: var(--organic-accent, #4ade80);
+}
+
+body.brutalist .view-btn.active {
+  background: var(--brutalist-text);
+  color: var(--brutalist-bg);
+}
+
+/* List View Styles */
+.saved-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.saved-list-item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.saved-list-item:hover {
+  background: rgba(255,255,255,0.06);
+  transform: translateX(4px);
+}
+
+body.organic .saved-list-item {
+  background: rgba(74,222,128,0.06);
+  border-color: rgba(74,222,128,0.15);
+}
+
+body.organic .saved-list-item:hover {
+  background: rgba(74,222,128,0.1);
+  border-color: rgba(74,222,128,0.3);
+}
+
+body.brutalist .saved-list-item {
+  background: var(--brutalist-bg);
+  border: 2px solid var(--brutalist-text);
+  border-radius: 0;
+}
+
+.list-item-content {
+  flex: 1;
+}
+
+.list-item-title {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--organic-accent, #4ade80);
+}
+
+body.brutalist .list-item-title {
+  color: var(--brutalist-text);
+  font-family: 'Archivo Black', sans-serif;
+}
+
+.list-item-preview {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+.list-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.list-item-date {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+.list-item-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.list-item-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.list-action-btn {
+  padding: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.1);
+  color: inherit;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* List Edit Form */
+.list-edit-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.list-edit-title, .list-edit-content, .list-edit-tags {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.05);
+  color: inherit;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.list-edit-content {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.list-edit-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+body.organic .list-edit-title, 
+body.organic .list-edit-content, 
+body.organic .list-edit-tags {
+  border-color: rgba(74,222,128,0.3);
+  background: rgba(74,222,128,0.08);
+}
+
+body.brutalist .list-edit-title, 
+body.brutalist .list-edit-content, 
+body.brutalist .list-edit-tags {
+  border: 2px solid var(--brutalist-text);
+  background: var(--brutalist-bg);
+  border-radius: 0;
+}
+
+body.organic .list-action-btn {
+  border-color: rgba(74,222,128,0.3);
+  background: rgba(74,222,128,0.1);
+}
+
+body.brutalist .list-action-btn {
+  border: 2px solid var(--brutalist-text);
+  background: var(--brutalist-bg);
+  border-radius: 0;
+}
 .saved-date-group {
   margin-bottom: 32px;
 }
