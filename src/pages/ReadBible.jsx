@@ -695,16 +695,19 @@ export default function ReadBible() {
               <h3>Select Testament</h3>
               <button className="close-button" onClick={() => setShowTestamentPicker(false)} aria-label="Close">×</button>
             </div>
-            <div className="chapters-grid picker-grid">
-              {['Old Testament', 'New Testament'].map((label) => {
-                const isOld = label === 'Old Testament';
+            <div className="testament-options">
+              {(() => {
                 const currentIsOld = oldTestament.some(b => b.book === selectedBook?.book);
-                return (
+                const options = [
+                  { label: 'Old Testament', isOld: true, icon: '📜', books: oldTestament.length },
+                  { label: 'New Testament', isOld: false, icon: '✝️', books: newTestament.length },
+                ];
+                return options.map(opt => (
                   <div
-                    key={label}
-                    className={`chapter-item ${currentIsOld === isOld ? 'active' : ''}`}
+                    key={opt.label}
+                    className={`testament-card ${opt.isOld ? 'old' : 'new'} ${currentIsOld === opt.isOld ? 'active' : ''}`}
                     onClick={() => {
-                      const nextBook = isOld ? oldTestament[0] : newTestament[0];
+                      const nextBook = opt.isOld ? oldTestament[0] : newTestament[0];
                       setSelectedBook(nextBook);
                       setSelectedChapter(1);
                       setCurrentChapter(null);
@@ -712,10 +715,14 @@ export default function ReadBible() {
                       setShowBookPicker(true);
                     }}
                   >
-                    {label}
+                    <div className="testament-icon" aria-hidden="true">{opt.icon}</div>
+                    <div className="testament-info">
+                      <span className="testament-label">{opt.label}</span>
+                      <span className="testament-sub">{opt.books} books</span>
+                    </div>
                   </div>
-                );
-              })}
+                ));
+              })()}
             </div>
           </div>
         </div>

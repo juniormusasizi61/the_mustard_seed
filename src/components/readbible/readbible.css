@@ -779,6 +779,38 @@ body.brutalist .book-item.active { outline: 2px solid #000; }
 /* Make book list scrollable within modal */
 .chapter-picker-modal .books-grid { max-height: 60vh; overflow-y: auto; }
 
+/* Testament Picker Cards */
+.testament-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 480px) {
+  .testament-options { grid-template-columns: 1fr 1fr; }
+}
+.testament-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform .12s ease, background .12s ease, box-shadow .12s ease;
+}
+body.brutalist .testament-card {
+  background: #ffffff;
+  border: 2px solid #000000;
+}
+.testament-card:active { transform: scale(0.98); }
+.testament-card.active { outline: 2px solid var(--organic-accent, #4ade80); }
+body.brutalist .testament-card.active { outline: 2px solid #000; }
+.testament-icon { font-size: 1.6rem; }
+.testament-info { display: flex; flex-direction: column; }
+.testament-label { font-weight: 700; }
+.testament-sub { font-size: 0.85rem; opacity: 0.75; }
+
 /* Similar Verses Modal */
 .similar-verses-overlay {
   position: fixed;
