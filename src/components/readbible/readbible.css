@@ -76,7 +76,7 @@ body.brutalist .back-button:hover {
 }
 
 /* Chapter picker button in header */
-.chapter-picker-btn {
+.chapter-picker-btn, .book-picker-btn {
   background: rgba(255, 255, 255, 0.1);
   border: none;
   color: inherit;
@@ -85,12 +85,12 @@ body.brutalist .back-button:hover {
   font-size: 14px;
   cursor: pointer;
 }
-body.brutalist .chapter-picker-btn {
+body.brutalist .chapter-picker-btn, body.brutalist .book-picker-btn {
   background: #000000;
   color: #ffffff;
   border: 2px solid #000000;
 }
-.chapter-picker-btn:active { transform: scale(0.97); }
+.chapter-picker-btn:active, .book-picker-btn:active { transform: scale(0.97); }
 
 .theme-toggle {
   background: none;
@@ -768,6 +768,10 @@ body.brutalist .chapter-picker-modal {
 .picker-grid { grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); }
 .chapter-item.active { outline: 2px solid var(--organic-accent, #4ade80); background: rgba(74, 222, 128, 0.15); }
 body.brutalist .chapter-item.active { outline-color: #000; background: #ffeb3b; }
+
+/* Active state for book in picker */
+.book-item.active { outline: 2px solid var(--organic-accent, #4ade80); }
+body.brutalist .book-item.active { outline: 2px solid #000; }
 
 /* Similar Verses Modal */
 .similar-verses-overlay {
