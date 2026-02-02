@@ -67,6 +67,7 @@ import { useState, useEffect } from "react";
 import { oldTestament, newTestament } from "../data/bible";
 import { useBibleApi } from "../hooks/useBibleApi";
 import { useFavorites } from "../hooks/useFavorites";
+import AlertModal from "../components/common/AlertModal";
 import { useBookmark } from "../hooks/useBookmark";
 import "../components/readbible/readbible.css";
 
@@ -82,6 +83,7 @@ export default function ReadBible() {
   const [showAddFavorite, setShowAddFavorite] = useState(false);
   const [selectedVerse, setSelectedVerse] = useState(null);
   const [expandedTestament, setExpandedTestament] = useState({ old: false, new: false, favorites: false });
+  const [alertModal, setAlertModal] = useState({ isOpen: false, title: '', message: '', type: 'success' });
   
   const { fetchChapter, loading, error } = useBibleApi();
   const { favorites, addFavorite, removeFavorite, isFavorite } = useFavorites();
@@ -198,6 +200,14 @@ export default function ReadBible() {
       setSelectedVerse(null);
       // Clear selection
       window.getSelection().removeAllRanges();
+
+      // Show success alert
+      setAlertModal({
+        isOpen: true,
+        title: 'Added to Favorites',
+        message: `${selectedVerse.book} ${selectedVerse.chapter}:${selectedVerse.verseNumber} has been added to your favorites.`,
+        type: 'success'
+      });
     }
   };
 
@@ -228,6 +238,14 @@ export default function ReadBible() {
         chapter,
         verseNumber: verse,
         text: verseObj.text,
+      });
+
+      // Show success alert
+      setAlertModal({
+        isOpen: true,
+        title: 'Added to Favorites',
+        message: `${book} ${chapter}:${verse} has been added to your favorites.`,
+        type: 'success'
       });
     }
   };
@@ -569,6 +587,15 @@ export default function ReadBible() {
           </div>
         </div>
       )}
+
+      {/* Alert Modal for actions */}
+      <AlertModal
+        isOpen={alertModal.isOpen}
+        onClose={() => setAlertModal((m) => ({ ...m, isOpen: false }))}
+        title={alertModal.title}
+        message={alertModal.message}
+        type={alertModal.type}
+      />
     </div>
   );
 }
