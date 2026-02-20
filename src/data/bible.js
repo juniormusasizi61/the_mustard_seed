@@ -1,4 +1,4 @@
-// Complete list of all 66 books in the KJV Bible with chapter counts
+// Complete list of all 66 books in the Protestant Bible with chapter counts
 export const oldTestament = [
   { book: "Genesis", chapters: 50 },
   { book: "Exodus", chapters: 40 },
@@ -41,6 +41,17 @@ export const oldTestament = [
   { book: "Malachi", chapters: 4 },
 ];
 
+// Deuterocanonical books (Apocrypha) for Catholic/Orthodox traditions
+export const deuterocanonical = [
+  { book: "Tobit", chapters: 14 },
+  { book: "Judith", chapters: 16 },
+  { book: "1 Maccabees", chapters: 16 },
+  { book: "2 Maccabees", chapters: 15 },
+  { book: "Wisdom", chapters: 19 },
+  { book: "Sirach", chapters: 51 },
+  { book: "Baruch", chapters: 6 },
+];
+
 export const newTestament = [
   { book: "Matthew", chapters: 28 },
   { book: "Mark", chapters: 16 },
@@ -72,3 +83,22 @@ export const newTestament = [
 ];
 
 export const bible = [...oldTestament, ...newTestament];
+
+// Get complete bible including deuterocanonical books for specific versions
+export const getBibleForVersion = (version) => {
+  const includesDeuterocanonical = ['rsv', 'nrsv', 'nabre', 'douay-rheims'].includes(version?.toLowerCase());
+  
+  if (includesDeuterocanonical) {
+    return {
+      oldTestament: [...oldTestament, ...deuterocanonical],
+      newTestament,
+      allBooks: [...oldTestament, ...deuterocanonical, ...newTestament]
+    };
+  }
+  
+  return {
+    oldTestament,
+    newTestament,
+    allBooks: [...oldTestament, ...newTestament]
+  };
+};

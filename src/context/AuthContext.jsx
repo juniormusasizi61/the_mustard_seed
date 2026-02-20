@@ -9,6 +9,7 @@ import {
   updateProfile
 } from 'firebase/auth';
 import { auth } from '../config/firebase';
+import OneTapSignIn from '../components/auth/OneTapSignIn';
 
 const AuthContext = createContext({});
 
@@ -75,7 +76,12 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {!loading && (
+        <>
+          {!user && <OneTapSignIn />}
+          {children}
+        </>
+      )}
     </AuthContext.Provider>
   );
 };

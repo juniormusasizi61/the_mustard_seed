@@ -1,4 +1,4 @@
-# Firebase Setup Guide for The Mustard Seed
+# Firebase Setup Guide for Verilia AI
 
 This guide will help you set up Firebase authentication and Firestore for your chat history feature.
 
@@ -30,7 +30,7 @@ This guide will help you set up Firebase authentication and Firestore for your c
 1. Go to **Project Settings** (gear icon near "Project Overview")
 2. Scroll down to "Your apps"
 3. Click the **Web** icon (`</>`) to add a web app
-4. Register your app with a nickname (e.g., "The Mustard Seed Web")
+4. Register your app with a nickname (e.g., "Verilia AI Web")
 5. Copy the configuration object that looks like this:
 
 ```javascript

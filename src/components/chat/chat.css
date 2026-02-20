@@ -405,6 +405,7 @@ body.brutalist .new-chat-btn:active, body.brutalist .history-toggle-btn:active {
   background: rgba(0, 0, 0, 0.5);
   z-index: 999;
   animation: fadeIn 0.3s ease;
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
 
