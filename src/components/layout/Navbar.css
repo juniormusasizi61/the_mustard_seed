@@ -1,78 +1,22 @@
-/* .navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #d9bf5c;
-  padding: 14px 32px;
-  border-radius: 12px;
-  margin: 16px;
-}
-
-.navbar-logo {
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
-.navbar-links {
-  display: flex;
-  gap: 24px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.navbar-links a {
-  text-decoration: none;
-  color: #000;
-  font-weight: 500;
-}
-
-.navbar-links a.active {
-  text-decoration: underline;
-} */
-
-
-/* Updated Navbar styles for improved design */
+/* ── Navbar ── */
 .navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 12px 18px;
-  border-radius: 0;
-  margin: 0;
-  gap: 12px;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  width: 100%;
   z-index: 1000;
+  box-sizing: border-box;
 }
-
-/* organic/brutalist backgrounds */
-body.organic .navbar { background: rgba(10,26,26,0.95); border-bottom: 1px solid rgba(74,222,128,0.18); color: var(--organic-text); backdrop-filter: blur(10px); }
+body.organic .navbar  { background: rgba(10,26,26,0.95); border-bottom: 1px solid rgba(74,222,128,0.18); color: var(--organic-text); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
 body.brutalist .navbar { background: var(--brutalist-bg); border-bottom: 3px solid var(--brutalist-text); color: var(--brutalist-text); }
 
 .navbar-logo { font-weight: 700; font-size: 1rem; }
 
-@media (max-width: 768px) {
-  .navbar {
-    padding: 10px 14px;
-  }
-  
-  .navbar-logo {
-    font-size: 0.9rem;
-  }
-  
-  .navbar-links {
-    gap: 14px;
-  }
-  
-  .navbar-links a {
-    font-size: 0.85rem;
-  }
-}
-
+/* ── Desktop nav links (visible ≥ 769px) ── */
 .navbar-links {
   display: flex;
   gap: 18px;
@@ -80,13 +24,59 @@ body.brutalist .navbar { background: var(--brutalist-bg); border-bottom: 3px sol
   margin: 0;
   padding: 0;
 }
+.navbar-links a       { text-decoration: none; color: inherit; font-weight: 600; }
+.navbar-links a.active { text-decoration: underline; }
 
-.navbar-links a {
-  text-decoration: none;
-  color: inherit;
-  font-weight: 600;
+/* ── Hamburger button (hidden on desktop) ── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: #ffffff;
 }
 
-.navbar-links a.active {
-  text-decoration: underline;
+/* ── Mobile dropdown (shown when hamburger opens) ── */
+.navbar-mobile-menu {
+  position: fixed;
+  top: 48px;
+  left: 0;
+  right: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+body.organic  .navbar-mobile-menu { background: rgba(10,26,26,0.98); border-top: 1px solid rgba(74,222,128,0.18); }
+body.brutalist .navbar-mobile-menu { background: var(--brutalist-bg); border-top: 3px solid var(--brutalist-text); }
+.navbar-mobile-menu li { border-bottom: 1px solid rgba(255,255,255,0.07); }
+.navbar-mobile-menu a {
+  display: block;
+  padding: 14px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: inherit;
+}
+.navbar-mobile-menu a.active { text-decoration: underline; }
+
+/* ── Mobile breakpoint: swap links for hamburger ── */
+@media (max-width: 768px) {
+  .navbar-links { display: none; }
+  .hamburger    { display: flex; }
 }

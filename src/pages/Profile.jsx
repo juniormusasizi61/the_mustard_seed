@@ -5,13 +5,15 @@ import { useAuth } from "../context/AuthContext";
 import useSavedNotes from "../hooks/useSavedNotes";
 import { resetAllModalPreferences } from "../components/common/ConfirmModal";
 import AlertModal from "../components/common/AlertModal";
+import VersionSelector from "../components/bible/VersionSelector";
+
 import "./profile.css";
 
 export default function Profile() {
   const { user, logout: firebaseLogout } = useAuth();
   const { notes } = useSavedNotes();
   const [editing, setEditing] = useState(false);
-  const [activeTab, setActiveTab] = useState('profile'); // 'profile' or 'settings'
+  const [activeTab, setActiveTab] = useState('profile'); // 'profile', 'settings', or 'offline'
   const [theme, setTheme] = useState(
     () => localStorage.getItem("theme") || "organic"
   );
@@ -106,6 +108,7 @@ export default function Profile() {
         >
           Settings
         </button>
+        {/* Removed Bible Settings tab as requested */}
       </div>
 
       {/* Profile Tab */}
@@ -211,6 +214,26 @@ export default function Profile() {
           </div>
 
           <div className="settings-card">
+            <h3>Bible</h3>
+            <div className="setting-item">
+              <div className="setting-info">
+                <label>Bible Version</label>
+                <p className="setting-description">Select which Bible translation the reader uses. Only installed/offline versions are shown.</p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <VersionSelector value={localStorage.getItem('bible_version') || 'kjv'} onChange={(id)=>{
+                  try { localStorage.setItem('bible_version', id); } catch (e) { void e; }
+                  setAlertModal({ isOpen: true, title: 'Version Changed', message: `Bible version set to ${id.toUpperCase()}.`, type: 'success' });
+                  // also dispatch storage event for other tabs/components
+                  try { window.dispatchEvent(new StorageEvent('storage', { key: 'bible_version', newValue: id })); } catch (e) { void e; }
+                }} />
+              </div>
+            </div>
+          </div>
+
+          {/* Removed Language Packs section as requested */}
+
+          <div className="settings-card">
             <h3>Notifications & Dialogs</h3>
             <div className="setting-item">
               <div className="setting-info">
@@ -224,6 +247,8 @@ export default function Profile() {
           </div>
         </div>
       )}
+
+      {/* Removed Bible Settings (was Offline) tab content */}
 
       {/* Alert Modal */}
       <AlertModal

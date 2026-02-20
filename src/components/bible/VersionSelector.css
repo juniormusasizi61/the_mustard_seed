@@ -1,0 +1,87 @@
+/* VersionSelector styles to match the filled green dropdown look used in the reader pickers */
+.version-selector { position: relative; display: inline-block; }
+
+.version-button {
+  background: transparent;
+  color: inherit;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.06);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.version-button--filled {
+  background: var(--organic-accent, #4ade80);
+  color: #0a0a0a;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+.version-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0; /* align left edge with the button */
+  right: auto;
+  transform-origin: left top;
+  background: rgba(8, 12, 10, 0.98);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  list-style: none;
+  padding: 6px;
+  border-radius: 10px;
+  z-index: 1000;
+  min-width: 220px;
+  max-height: 50vh;
+  overflow-y: auto;
+  border: 1px solid rgba(74,222,128,0.06);
+}
+
+.version-menu::-webkit-scrollbar { width: 8px; }
+.version-menu::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 6px; }
+
+.version-menu-item { margin: 6px 0; }
+
+.version-menu-btn {
+  display: block;
+  padding: 8px 10px;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.95);
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.version-menu-btn:hover {
+  background: rgba(74,222,128,0.06);
+}
+
+.version-menu-row { display: inline-flex; gap: 8px; align-items: center; justify-content: space-between; width: 100%; }
+.version-menu-label { display: inline-block; font-size: 0.95rem; }
+
+.offline-badge {
+  background: rgba(230, 247, 255, 0.06);
+  color: #cfeffd;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+/* Ensure the menu matches mobile layout spacing */
+@media (max-width: 480px) {
+  /* On phones, anchor the menu under the button and expand rightwards from the button's left edge.
+     Keep it a dark rounded panel with a taller max-height and scrollable options. */
+  .version-menu {
+    left: 12px; /* small inset from the profile card edge */
+    right: auto;
+    width: calc(100% - 24px);
+    min-width: 180px;
+    max-height: 60vh;
+  }
+  .version-button--filled { padding: 10px 14px; border-radius: 12px; display: inline-block; }
+}

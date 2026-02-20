@@ -375,7 +375,7 @@ export default function Chat() {
 
   setIsProcessing(true);
 
-  const backendUrl = import.meta.env.VITE_RAG_API_URL || "https://verilia-final.onrender.com/chat";
+  const backendUrl = import.meta.env.VITE_RAG_API_URL;
   const apiKey = import.meta.env.VITE_RAG_API_KEY;
   // Prepare conversation history excluding user messages for context
   try {

@@ -1,12 +1,13 @@
-# The Mustard Seed — AI Bible Study
+# Verilia AI — AI Bible Study
 
 A small React + Vite application for Bible reading and AI‑assisted study. The app provides a conversational chat UI, a rich ReadBible experience with quick pickers, and simple profile and saved notes pages. Firebase Authentication enables Google sign‑in.
 
 **Key Features**
 - **Chat**: Ask questions; chat history persists. See [src/pages/Chat.jsx](the_mustard_seed/src/pages/Chat.jsx).
 - **ReadBible**: Browse books, chapters, and verses with Testament/Book/Chapter pickers; add per‑verse favorites; success alerts confirm actions. See [src/pages/ReadBible.jsx](the_mustard_seed/src/pages/ReadBible.jsx).
+- **Offline Bible**: Download entire Bible versions for offline reading. Works completely without internet! See [guides/OFFLINE_QUICK_START.md](the_mustard_seed/guides/OFFLINE_QUICK_START.md).
 - **Saved**: View saved notes. See [src/pages/Saved.jsx](the_mustard_seed/src/pages/Saved.jsx).
-- **Profile**: Shows Google profile photo; theme toggle; reset dialog preferences. See [src/pages/Profile.jsx](the_mustard_seed/src/pages/Profile.jsx) and [src/context/AuthContext.jsx](the_mustard_seed/src/context/AuthContext.jsx).
+- **Profile**: Shows Google profile photo; theme toggle; reset dialog preferences; offline Bible manager. See [src/pages/Profile.jsx](the_mustard_seed/src/pages/Profile.jsx) and [src/context/AuthContext.jsx](the_mustard_seed/src/context/AuthContext.jsx).
 
 **Tech Stack**
 - React 19, Vite 7, React Router 7
