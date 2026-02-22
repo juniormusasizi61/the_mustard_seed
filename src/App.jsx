@@ -8,6 +8,7 @@ import Saved from "./pages/Saved";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import TermsAndPolicies from "./pages/TermsAndPolicies";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="read-bible" element={<ReadBible />} />
           <Route path="saved" element={<Saved />} />
           <Route path="profile" element={<Profile />} />
+            <Route path="terms-policies" element={<TermsAndPolicies />} />
         </Route>
       </Routes>
     </AuthProvider>

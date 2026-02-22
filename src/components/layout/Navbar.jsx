@@ -1,13 +1,11 @@
-import { NavLink, useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
 import './Navbar.css';
 
 export default function Navbar() {
    const [menuOpen, setMenuOpen] = useState(false);
-   const location = useLocation();
 
-   // Close menu on route change
-   useEffect(() => { setMenuOpen(false); }, [location]);
+   const closeMenu = () => setMenuOpen(false);
 
    return (
       <nav className="navbar">
@@ -33,12 +31,20 @@ export default function Navbar() {
 
          {/* Mobile dropdown */}
          {menuOpen && (
-            <ul className="navbar-mobile-menu">
-               <li><NavLink to="/">Chat</NavLink></li>
-               <li><NavLink to="/read-bible">Read Bible</NavLink></li>
-               <li><NavLink to="/saved">Saved</NavLink></li>
-               <li><NavLink to="/profile">Profile</NavLink></li>
-            </ul>
+            <>
+               {/* Overlay to close menu when tapping outside */}
+               <div 
+                  className="navbar-overlay" 
+                  onClick={closeMenu}
+                  aria-hidden="true"
+               />
+               <ul className="navbar-mobile-menu">
+                  <li><NavLink to="/" onClick={closeMenu}>Chat</NavLink></li>
+                  <li><NavLink to="/read-bible" onClick={closeMenu}>Read Bible</NavLink></li>
+                  <li><NavLink to="/saved" onClick={closeMenu}>Saved</NavLink></li>
+                  <li><NavLink to="/profile" onClick={closeMenu}>Profile</NavLink></li>
+               </ul>
+            </>
          )}
       </nav>
    );
