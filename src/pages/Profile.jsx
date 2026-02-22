@@ -234,6 +234,19 @@ export default function Profile() {
           {/* Removed Language Packs section as requested */}
 
           <div className="settings-card">
+            <h3>Legal & Support</h3>
+            <div className="setting-item">
+              <div className="setting-info">
+                <label>Legal Information</label>
+                <p className="setting-description">View our terms of service and privacy policy</p>
+              </div>
+              <div className="legal-links">
+                <a href="/terms-policies" style={{ color: 'var(--organic-accent)', textDecoration: 'none' }}>Terms & Policies</a>
+              </div>
+            </div>
+          </div>
+
+          <div className="settings-card">
             <h3>Notifications & Dialogs</h3>
             <div className="setting-item">
               <div className="setting-info">
