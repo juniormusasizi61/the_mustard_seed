@@ -377,16 +377,24 @@ export default function Chat() {
 
   const backendUrl = import.meta.env.VITE_RAG_API_URL;
   const apiKey = import.meta.env.VITE_RAG_API_KEY;
-  // Prepare conversation history excluding user messages for context
+
+  if (!backendUrl) {
+    console.error("RAG API URL not configured: set VITE_RAG_API_URL");
+    throw new Error("RAG API URL not configured");
+  }
+
+  // Some backends expect the main question as a query param named `q`.
+  // Include it on the URL and send the conversation `history` in the POST body.
+  const urlWithQ = backendUrl + (backendUrl.includes("?") ? "&" : "?") + "q=" + encodeURIComponent(userMsg.content);
+
   try {
-    const resp = await fetch(backendUrl, {
+    const resp = await fetch(urlWithQ, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {}),
       },
       body: JSON.stringify({
-        question: userMsg.content,
         history: [...messages, userMsg], // include latest user message in context
       }),
     });
