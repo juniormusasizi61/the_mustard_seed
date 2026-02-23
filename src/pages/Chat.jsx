@@ -1,102 +1,3 @@
-// // import useSavedNotes from "../hooks/useSavedNotes";
-
-// // const mockResponse = {
-// //   title: "John 3 Explained",
-// //   content: "John 3 teaches about being born again through faith in Christ.",
-// // };
-
-// // export default function Chat() {
-// //   const { addNote } = useSavedNotes();
-
-// //   return (
-// //     <div>
-// //       <h2>Ask Bible AI</h2>
-
-// //       {/* AI response mock */}
-// //       <div className="ai-response">
-// //         <p>{mockResponse.content}</p>
-
-// //         <button
-// //           onClick={() => addNote(mockResponse)}
-// //           className="save-btn"
-// //         >
-// //           Save
-// //         </button>
-// //       </div>
-// //     </div>
-// //   );
-// // }
-
-//       //New chat with state-driven messages and save functionality
-// import { useState } from "react";
-// import useSavedNotes from "../hooks/useSavedNotes";
-// import "../components/chat/chat.css";
-
-// export default function Chat() {
-//   const [messages, setMessages] = useState([]);
-//   const [input, setInput] = useState("");
-//   const { addNote } = useSavedNotes();
-
-//   const sendMessage = () => {
-//     if (!input.trim()) return;
-
-//     const userMessage = {
-//       id: Date.now(),
-//       role: "user",
-//       content: input,
-//     };
-
-//     const aiMessage = {
-//       id: Date.now() + 1,
-//       role: "ai",
-//       content:
-//         "This is a mock AI response explaining the Bible passage you asked about.",
-//     };
-
-//     setMessages((prev) => [...prev, userMessage, aiMessage]);
-//     setInput("");
-//   };
-
-//   const saveLastAIResponse = () => {
-//     const lastAI = [...messages].reverse().find((m) => m.role === "ai");
-//     if (!lastAI) return;
-
-//     addNote({
-//       title: "Saved Bible Insight",
-//       content: lastAI.content,
-//     });
-//   };
-
-//   return (
-//     <div className="chat-page">
-//       <h2>Ask Bible AI</h2>
-
-//       <div className="chat-history">
-//         {messages.map((msg) => (
-//           <div key={msg.id} className={`chat-bubble ${msg.role}`}>
-//             <p>{msg.content}</p>
-//           </div>
-//         ))}
-//       </div>
-
-//       {messages.some((m) => m.role === "ai") && (
-//         <button className="save-btn" onClick={saveLastAIResponse}>
-//           Save Insight
-//         </button>
-//       )}
-
-//       <div className="chat-input">
-//         <input
-//           value={input}
-//           onChange={(e) => setInput(e.target.value)}
-//           placeholder="Ask a Bible question..."
-//         />
-//         <button onClick={sendMessage}>Send</button>
-//       </div>
-//     </div>
-//   );
-// }
-
 
     //improved chat UI design with theme toggle and suggestions
 import { useEffect, useRef, useState } from "react";
@@ -127,6 +28,8 @@ export default function Chat() {
   });
   const textareaRef = useRef(null);
   const { addNote, notes } = useSavedNotes();
+
+  // (removed development debug logs)
 
   useEffect(() => {
     document.body.classList.remove("organic", "brutalist");
@@ -309,44 +212,6 @@ export default function Chat() {
     ta.style.height = Math.min(ta.scrollHeight, 120) + "px";
   };
 
-  // const sendMessage = async () => {
-  //   if (!input.trim() || isProcessing) return;
-
-  //   const userMsg = {
-  //     id: Date.now(),
-  //     role: "user",
-  //     content: input.trim(),
-  //   };
-
-  //   setMessages((prev) => [...prev, userMsg]);
-  //   setInput("");
-  //   adjustTextareaHeight();
-
-  //   // show typing indicator
-  //   setIsProcessing(true);
-
-  //   // Simulate async AI call; replace with real API call later.
-  //   try {
-  //     await new Promise((res) => setTimeout(res, 800));
-  //     const assistantMsg = {
-  //       id: Date.now() + 1,
-  //       role: "assistant",
-  //       content:
-  //         "This is a mock AI response explaining the Bible passage you asked about. Replace this with your real AI call.",
-  //     };
-  //     setMessages((prev) => [...prev, assistantMsg]);
-  //   } catch {
-  //     const errMsg = {
-  //       id: Date.now() + 2,
-  //       role: "assistant",
-  //       content: "Sorry, I couldn't reach the AI. Please try again.",
-  //     };
-  //     setMessages((prev) => [...prev, errMsg]);
-  //   } finally {
-  //     setIsProcessing(false);
-  //   }
-  // };
-
 
   //This replaces the simulated AI call with a real backend RAG API call
   const sendMessage = async () => {
@@ -378,6 +243,8 @@ export default function Chat() {
   const backendUrl = import.meta.env.VITE_RAG_API_URL;
   const apiKey = import.meta.env.VITE_RAG_API_KEY;
 
+  // (removed DEV console debug)
+
   if (!backendUrl) {
     console.error("RAG API URL not configured: set VITE_RAG_API_URL");
     throw new Error("RAG API URL not configured");
@@ -388,6 +255,29 @@ export default function Chat() {
   const urlWithQ = backendUrl + (backendUrl.includes("?") ? "&" : "?") + "q=" + encodeURIComponent(userMsg.content);
 
   try {
+    // Quick connectivity/ping check to give clearer error feedback
+    const pingBackend = async (baseUrl) => {
+      try {
+        const pingUrl = baseUrl + (baseUrl.includes("?") ? "&" : "?") + "q=" + encodeURIComponent("__ping__");
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), 5000);
+        const r = await fetch(pingUrl, { method: 'GET', signal: controller.signal });
+        clearTimeout(id);
+        return r.ok || r.status === 422 || r.status === 400; // backend may respond with validation error but is reachable
+      } catch (e) {
+        if (import.meta.env.DEV) console.debug('[Chat Debug] ping failed', e);
+        return false;
+      }
+    };
+
+    const reachable = await pingBackend(backendUrl);
+    if (!reachable) {
+      showToast('Backend unreachable — check ngrok / server');
+      console.error('RAG backend not reachable at', backendUrl);
+      setIsProcessing(false);
+      return;
+    }
+
     const resp = await fetch(urlWithQ, {
       method: "POST",
       headers: {
@@ -663,6 +553,7 @@ export default function Chat() {
       
       {toast && <div className="toast">{toast}</div>}
 
+      {/* development debug panel removed */}
       {/* Confirm Modal */}
       <ConfirmModal
         isOpen={confirmModal.isOpen}
