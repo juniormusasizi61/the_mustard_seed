@@ -190,8 +190,8 @@ body.brutalist .suggestion-chip:active { background: var(--brutalist-text); colo
   flex-direction: column;
   gap: 15px;
   padding: 5px;
-  padding-bottom: 100px;;
-
+  padding-bottom: 120px;
+  min-height: 300px;
 }
 .chat-container::-webkit-scrollbar { width: 6px; }
 body.organic .chat-container::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 3px; }
@@ -236,16 +236,26 @@ body.brutalist .typing-dot { background: var(--brutalist-text); }
   align-items: flex-end;
   padding: 12px 16px;
   position: fixed;
-  bottom: 0; 
-  
+  bottom: 100px;
   
   /* Add your responsive side margins */
   left: 0;
   right: 0;
   width: 100%;
-  background: #071414;
   z-index: 100;
   box-sizing: border-box;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.organic .input-area {
+  background: rgba(7, 20, 20, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+body.brutalist .input-area {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-top: 2px solid var(--brutalist-text);
 }
 
 /* PC margins */

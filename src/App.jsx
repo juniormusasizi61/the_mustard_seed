@@ -9,6 +9,8 @@ import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import TermsAndPolicies from "./pages/TermsAndPolicies";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 
 function App() {
   return (
@@ -23,7 +25,9 @@ function App() {
           <Route path="read-bible" element={<ReadBible />} />
           <Route path="saved" element={<Saved />} />
           <Route path="profile" element={<Profile />} />
-            <Route path="terms-policies" element={<TermsAndPolicies />} />
+          <Route path="terms-policies" element={<TermsAndPolicies />} />
+          <Route path="privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="terms-of-service" element={<TermsOfService />} />
         </Route>
       </Routes>
     </AuthProvider>

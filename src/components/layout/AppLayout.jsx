@@ -16,6 +16,7 @@
 // improved layout with better spacing and background
 import { useEffect } from "react";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 import { Outlet } from "react-router-dom";
 import "../chat/chat.css";
 
@@ -27,11 +28,12 @@ export default function AppLayout() {
   }, []);
 
   return (
-    <>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Navbar />
-      <main style={{ padding: "70px 16px 40px" }}>
+      <main style={{ padding: "70px 16px 40px", flex: 1, paddingBottom: '180px' }}>
         <Outlet />
       </main>
-    </>
+      <Footer />
+    </div>
   );
 }
