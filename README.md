@@ -74,4 +74,4 @@ npm run dev
 Please keep changes focused and consistent with existing styles.
 
 ## License
-For educational/demo use; add license terms as needed.
+For educational/demo use
