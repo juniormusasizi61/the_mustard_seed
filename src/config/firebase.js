@@ -24,4 +24,21 @@ export const auth = getAuth(app);
 // Initialize Cloud Firestore and get a reference to the service
 export const db = getFirestore(app);
 
+// Production diagnostics: surface misconfigurations early
+if (import.meta.env.PROD) {
+  const placeholders = [
+    firebaseConfig.apiKey,
+    firebaseConfig.authDomain,
+    firebaseConfig.projectId,
+    firebaseConfig.storageBucket,
+    firebaseConfig.messagingSenderId,
+    firebaseConfig.appId,
+  ].some((v) => typeof v === 'string' && /your-|project-id|appspot|firebaseapp/.test(v) && v.includes('your-'));
+
+  if (placeholders) {
+    // eslint-disable-next-line no-console
+    console.error('[Firebase] Missing or placeholder env vars on production. Set VITE_FIREBASE_* in Vercel.');
+  }
+}
+
 export default app;
